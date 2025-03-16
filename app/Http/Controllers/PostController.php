@@ -97,12 +97,19 @@ class PostController extends Controller
     
             // Xử lý thiết bị
             $thietbis = [];
+
             if ($request->has('thietbis')) {
                 foreach ($request->input('thietbis') as $id => $name) {
-                    $icon = Thietbi::find($id)->icon ?? null;
+                    // Lấy icon dựa vào key giống nhau
+                    $icon = $request->input("icon_thietbi.{$id}") ?? null;
+            
+                    // Thêm vào danh sách
                     $thietbis[] = ['name' => $name, 'icon' => $icon];
                 }
             }
+            
+            
+            // Kiểm tra kết quả
     
             // Lưu thông tin bài đăng
             $baidang = new Baidang();

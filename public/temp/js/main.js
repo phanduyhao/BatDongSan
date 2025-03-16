@@ -309,7 +309,13 @@ $(document).ready(function () {
             success: function (response) {
                 $('#loading').hide();
                 if (response.status === "success") {
-                    window.location.href = "{{ route('property.index') }}"; // Chuyển hướng
+                    $('#form-dang-tin')[0].reset();
+                    $('#form-dang-tin input[type="file"]').val('');
+                    uploadedFiles = []; // ✅ Xóa danh sách file đã chọn
+                    $('#previewContainer').empty(); // ✅ Xóa ảnh xem trước
+                    $("html, body").animate({ scrollTop: 0 }, "fast");
+            
+                    toastr.success("✅ Đăng tin thành công!");
                 } else {
                     alert("Có lỗi xảy ra, vui lòng thử lại!");
                 }

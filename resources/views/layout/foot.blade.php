@@ -16,6 +16,8 @@
 <script src="/ckeditor/ckeditor.js"></script>
 <script src="/temp/js/main.js"></script>
 <script src="/temp/js/validate.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <!-- ============================================================== -->
 <!-- This page plugins -->
 <script>

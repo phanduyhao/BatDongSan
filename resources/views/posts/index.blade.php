@@ -205,6 +205,7 @@
                                         @foreach($thietbis as $thietbi)
                                             <li class="d-flex align-items-center gap-2">
                                                 <input id="{{$thietbi->id}}" class="form-check-input" name="thietbis[{{$thietbi->id}}]" type="checkbox" value="{{$thietbi->title}}">
+                                                <input type="hidden" name="icon_thietbi[{{$thietbi->id}}]" value="{{$thietbi->icon}}">
                                                 <div>
                                                     @if($thietbi->icon != null)
                                                         <img src="{{$thietbi->icon}}" width="30px" alt="">
