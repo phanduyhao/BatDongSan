@@ -67,24 +67,24 @@
         <li class='menu-item'>
             <a href='javascript:void(0);' class='menu-link menu-toggle'>
                 <i class='menu-icon tf-icons bx bxs-user-account'></i>
-                <div data-i18n='Layouts'>Quản lý công việc</div>
-                <span class="badge bg-danger">12</span>
+                <div data-i18n='Layouts'>Quản lý Bài Đăng</div>
+                <span class="badge bg-danger">{{$count_baidang}}</span>
             </a>
             <ul class='menu-sub'>
                 <li class='menu-item'>
-                    <a href='' class='menu-link'>
-                        <div data-i18n='Without menu'>Công việc đã duyệt</div>
+                    <a href='{{route('baidangDaduyet')}}' class='menu-link'>
+                        <div data-i18n='Without menu'>Bài Đăng đã duyệt</div>
                     </a>
                 </li>
                 <li class='menu-item'>
-                    <a href='' class='menu-link'>
-                        <div data-i18n='Without menu'>Công việc đang chờ duyệt</div>
-                        <span class="badge bg-danger ms-3">12</span>
+                    <a href='{{route('baidangChoduyet')}}' class='menu-link'>
+                        <div data-i18n='Without menu'>Bài Đăng đang chờ duyệt</div>
+                        <span class="badge bg-danger ms-3">{{$count_baidang}}</span>
                     </a>
                 </li>
                 <li class='menu-item'>
-                    <a href='' class='menu-link'>
-                        <div data-i18n='Without menu'>Công việc đã hủy</div>
+                    <a href='{{route('baidangDahuy')}}' class='menu-link'>
+                        <div data-i18n='Without menu'>Bài Đăng đã hủy</div>
                     </a>
                 </li>
             </ul>

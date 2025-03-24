@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('bathrooms')->default(0); // Số phòng vệ sinh
             $table->string('huongnha')->nullable(); // Hướng nhà (Đông, Tây,...)
             $table->boolean('noithat')->default(false); // Nội thất đầy đủ hay không
-            $table->boolean('adminduyet')->default(false); // Nội thất đầy đủ hay không
+            $table->boolean('adminduyet')->nullable(); // Nội thất đầy đủ hay không
             $table->enum('status', ['cosan', 'dathue', 'hethan'])->default('cosan'); // Trạng thái tin đăng
             $table->enum('mohinh', ['thue', 'ban'])->nullable(); // Trạng thái bán / thuê
             $table->timestamps();

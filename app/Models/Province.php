@@ -11,8 +11,6 @@ class Province extends Model
     use HasFactory;
     protected $table="provinces";
 
-    protected $fillable = ['name'];
-
     public function districts()
     {
         return $this->hasMany(District::class);

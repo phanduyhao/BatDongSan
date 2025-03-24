@@ -13,11 +13,8 @@ class District extends Model
 
     protected $table="districts";
 
-    protected $fillable = ['name', 'province_id'];
-
-    public function province()
-    {
-        return $this->belongsTo(Province::class);
+    public function province() {
+        return $this->belongsTo(Province::class, 'province_id');
     }
 
     public function wards()

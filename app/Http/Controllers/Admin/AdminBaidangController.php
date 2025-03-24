@@ -2,64 +2,158 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Baidang;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AdminBaidangController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $perPage = 10;
+    
+        // Tạo query cơ bản để lấy các Bài đăng chưa bị xóa
+        $query = BaiDang::query();
+    
+        // Kiểm tra điều kiện tìm kiếm theo từng trường
+        if ($request->filled('search_user')) {
+            $query->whereHas('User', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->search_user . '%');
+            });
+        }
+        
+        if ($request->filled('search_title')) {
+            $query->where('title', 'LIKE', '%' . $request->search_title . '%');
+        }
+        
+        if ($request->filled('search_mohinh')) {
+            $query->where('mohinh', 'LIKE', '%' . $request->search_mohinh . '%');
+        }
+        
+        if ($request->filled('search_loainhadat')) {
+            $query->whereHas('nhadat', function ($q) use ($request) {
+                $q->where('title', 'LIKE', '%' . $request->search_loainhadat . '%');
+            });
+        }
+        
+        if ($request->filled('search_trangthai')) {
+            $query->where('status', 'LIKE', '%' . $request->search_trangthai . '%');
+        }
+        // Lấy danh sách Bài đăng với phân trang và giữ các tham số tìm kiếm trong liên kết phân trang
+        $BaiDangs = $query->orderByDesc('id')->where('adminduyet',true)->paginate($perPage)->appends($request->all());
+    
+        return view('admin.BaiDang.index', compact('BaiDangs'), [
+            'title' => 'Bài đăng đã duyệt'
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function loading(Request $request)
     {
-        //
+        $perPage = 10;
+    
+        // Tạo query cơ bản để lấy các Bài đăng chưa bị xóa
+        $query = BaiDang::query();
+    
+        // Kiểm tra điều kiện tìm kiếm theo từng trường
+        if ($request->filled('search_user')) {
+            $query->whereHas('User', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->search_user . '%');
+            });
+        }
+        
+        if ($request->filled('search_title')) {
+            $query->where('title', 'LIKE', '%' . $request->search_title . '%');
+        }
+        
+        if ($request->filled('search_mohinh')) {
+            $query->where('mohinh', 'LIKE', '%' . $request->search_mohinh . '%');
+        }
+        
+        if ($request->filled('search_loainhadat')) {
+            $query->whereHas('nhadat', function ($q) use ($request) {
+                $q->where('title', 'LIKE', '%' . $request->search_loainhadat . '%');
+            });
+        }
+        
+        if ($request->filled('search_trangthai')) {
+            $query->where('status', 'LIKE', '%' . $request->search_trangthai . '%');
+        }
+        // Lấy danh sách Bài đăng với phân trang và giữ các tham số tìm kiếm trong liên kết phân trang
+        $BaiDangs = $query->orderByDesc('id')->where('adminduyet',null)->paginate($perPage)->appends($request->all());
+    
+        return view('admin.BaiDang.loading', compact('BaiDangs'), [
+            'title' => 'Bài đăng đang chờ duyệt'
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function cancel(Request $request)
     {
-        //
+        $perPage = 10;
+    
+        // Tạo query cơ bản để lấy các Bài đăng chưa bị xóa
+        $query = BaiDang::query();
+    
+        // Kiểm tra điều kiện tìm kiếm theo từng trường
+        if ($request->filled('search_user')) {
+            $query->whereHas('User', function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->search_user . '%');
+            });
+        }
+        
+        if ($request->filled('search_title')) {
+            $query->where('title', 'LIKE', '%' . $request->search_title . '%');
+        }
+        
+        if ($request->filled('search_mohinh')) {
+            $query->where('mohinh', 'LIKE', '%' . $request->search_mohinh . '%');
+        }
+        
+        if ($request->filled('search_loainhadat')) {
+            $query->whereHas('nhadat', function ($q) use ($request) {
+                $q->where('title', 'LIKE', '%' . $request->search_loainhadat . '%');
+            });
+        }
+        
+        if ($request->filled('search_trangthai')) {
+            $query->where('status', 'LIKE', '%' . $request->search_trangthai . '%');
+        }
+        // Lấy danh sách Bài đăng với phân trang và giữ các tham số tìm kiếm trong liên kết phân trang
+        $BaiDangs = $query->orderByDesc('id')->where('adminduyet',false)->paginate($perPage)->appends($request->all());
+    
+        return view('admin.BaiDang.cancel', compact('BaiDangs'), [
+            'title' => 'Bài đăng đã hủy'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function approve($id)
     {
-        //
+        // Tìm Bài đăng theo ID
+        $baidang = Baidang::find($id);
+
+        if (!$baidang) {
+            return redirect()->back()->with('error', 'Bài đăng không tồn tại.');
+        }
+
+        // Cập nhật trạng thái Bài đăng
+        $baidang->adminduyet = true; // Duyệt
+        $baidang->save();
+
+        return redirect()->back()->with('success', 'Bài đăng đã được duyệt thành công.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function cancelPost($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Tìm Bài đăng theo ID
+        $baidang = Baidang::find($id);
+    
+        if (!$baidang) {
+            return redirect()->back()->with('error', 'Bài đăng không tồn tại.');
+        }
+    
+        // Cập nhật trạng thái Bài đăng
+        $baidang->adminduyet = false; // Hủy
+        $baidang->save();
+    
+        return redirect()->back()->with('success', 'Bài đăng đã bị hủy.');
     }
 }

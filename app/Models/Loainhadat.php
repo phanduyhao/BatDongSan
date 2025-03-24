@@ -11,7 +11,7 @@ class Loainhadat extends Model
     use HasFactory;
     protected $table="loainhadats";
 
-    protected $fillable = ['title', 'slug', 'icon'];
+    protected $fillable = ['id','title', 'slug', 'icon'];
 
     public function baidangs()
     {

@@ -14,18 +14,21 @@ return new class extends Migration
         Schema::create('provinces', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('code')->unique();
             $table->timestamps();
         });
         Schema::create('districts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('province_id')->constrained('provinces')->onDelete('cascade');
             $table->string('name');
+            $table->string('code')->unique();
             $table->timestamps();
         });
         Schema::create('wards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('district_id')->constrained('districts')->onDelete('cascade');
             $table->string('name');
+            $table->string('code')->unique();
             $table->timestamps();
         });
         Schema::create('addresses', function (Blueprint $table) {

@@ -13,7 +13,7 @@ class AdminSettingController extends Controller
      */
     public function index()
     {
-        $settings = setting::all();
+        $settings = Setting::pluck('value', 'key')->toArray();
         return view('admin.setting.index',compact('settings'),[
             'title' => 'Thiết lập'  
         ]);
@@ -70,7 +70,7 @@ class AdminSettingController extends Controller
 public function updateAll(Request $request)
 {
     // Danh sách các key cần cập nhật
-    $keys = ['logo', 'banner_image', 'phone', 'email'];
+    $keys = ['logo', 'banner', 'phone', 'email'];
 
     foreach ($keys as $key) {
         $setting = Setting::where('key', $key)->first();
@@ -80,7 +80,7 @@ public function updateAll(Request $request)
         }
 
         // Xử lý upload ảnh cho logo & banner
-        if (in_array($key, ['logo', 'banner_image'])) {
+        if (in_array($key, ['logo', 'banner'])) {
             if ($request->hasFile($key)) {
                 $file = $request->file($key);
                 $fileName = $key . '.jpg'; // Tạo tên file theo key

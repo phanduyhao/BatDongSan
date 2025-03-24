@@ -210,6 +210,7 @@ $('#priceNegotiable').change(function() {
 
 // Đăng tin
 $(document).ready(function () {
+    
     let $imageUpload = $("#imageUpload");
     let $imageInput = $("#imageInput");
     let $previewContainer = $("#previewContainer");
@@ -285,6 +286,53 @@ $(document).ready(function () {
             reader.readAsDataURL(file);
         });
     }
+
+    // Upload video
+    // upload video 
+const $videoInput = $("#videoInput");
+const $videoPreviewContainer = $("#videoPreviewContainer");
+const $videoUrlInput = $("#video_url");
+const $uploadBox = $("#videoUploadBox");
+
+// Khi click vào vùng upload thì mở file chọn video
+$uploadBox.on("click", function (event) {
+    event.stopPropagation(); // Ngăn chặn vòng lặp sự kiện
+    $videoInput[0].click();  // Click vào input file
+});
+
+    // Xử lý khi người dùng chọn file
+    // $videoInput.on("change", function () {
+    //     if (this.files.length > 0) {
+    //         const file = this.files[0]; // Lấy file duy nhất
+    //         $videoPreviewContainer.empty(); // Xóa video cũ nếu có
+
+    //         // Tạo thẻ video
+    //         const videoElement = $("<video>", {
+    //             controls: true,
+    //             width: 250,
+    //             src: URL.createObjectURL(file)
+    //         });
+
+    //         // Tạo nút xoá video
+    //         const deleteButton = $("<button>", {
+    //             text: "Xóa video",
+    //             class: "btn btn-danger btn-sm mt-2",
+    //             click: function () {
+    //                 $videoPreviewContainer.empty(); // Xóa video
+    //                 $videoInput.val(""); // Xóa giá trị trong input file
+    //                 $videoUrlInput.val(""); // Xóa giá trị đường dẫn video
+    //             }
+    //         });
+
+    //         // Thêm video + nút xoá vào vùng hiển thị
+    //         $videoPreviewContainer.append(videoElement, deleteButton);
+
+    //         // Lưu file name vào input hidden
+    //         $videoUrlInput.val(file.name);
+    //     }
+    // });
+
+
     $('#form-dang-tin').submit(function (e) {
         e.preventDefault();
         let descriptionContent = CKEDITOR.instances['description_post'].getData();
@@ -294,6 +342,9 @@ $(document).ready(function () {
         uploadedFiles.forEach((file) => {
             formData.append("images[]", file); // ✅ Đảm bảo file được thêm đúng
         });
+        // if ($videoInput[0].files.length > 0) {
+        //     formData.append("video", $videoInput[0].files[0]);
+        // }
         for (let pair of formData.entries()) {
             console.log(pair[0], pair[1]); 
         }
@@ -335,4 +386,31 @@ $(document).ready(function () {
             }
         });
     });
+    $(".remove-btn").on("click", function () {
+        let imageUrl = $(this).data("image-url"); // Lấy URL ảnh
+        let $previewItem = $(this).closest(".image-preview"); // Lấy phần tử cần xóa
+
+        if (!confirm("Bạn có chắc chắn muốn xóa ảnh này?")) return;
+
+        $.ajax({
+            url: "/delete-image", // Đường dẫn đến controller xử lý
+            type: "POST",
+            data: {
+                image: imageUrl, // Gửi URL ảnh cần xóa
+                _token: $('meta[name="csrf-token"]').attr("content"), // CSRF token
+            },
+            success: function (response) {
+                if (response.success) {
+                    $previewItem.remove(); // Xóa ảnh khỏi giao diện nếu xóa thành công
+                    alert("Ảnh đã được xóa thành công.");
+                } else {
+                    alert("Xóa ảnh thất bại!");
+                }
+            },
+            error: function () {
+                alert("Có lỗi xảy ra, vui lòng thử lại.");
+            },
+        });
+    });
+
 });

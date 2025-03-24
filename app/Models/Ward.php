@@ -12,15 +12,18 @@ class Ward extends Model
     use HasFactory;
     protected $table="wards";
 
-    protected $fillable = ['name', 'district_id'];
-
-    public function district()
-    {
-        return $this->belongsTo(District::class);
+    public function district() {
+        return $this->belongsTo(District::class, 'district_id');
     }
 
     public function addresses()
     {
         return $this->hasMany(Address::class);
     }
+
+    public function baidangs()
+    {
+        return $this->hasManyThrough(Baidang::class, Address::class, 'ward_id', 'address_id');
+    }
+
 }

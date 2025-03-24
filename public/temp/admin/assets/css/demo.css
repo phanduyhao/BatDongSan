@@ -191,3 +191,10 @@
   border-radius: 8px;
   object-fit: cover;
 }
+.title-cell{
+  max-width: 200px; /* Điều chỉnh độ rộng tối đa */
+  word-wrap: break-word; /* Xuống dòng nếu quá dài */
+  white-space: normal; /* Cho phép xuống dòng */
+  overflow: hidden; /* Ẩn phần bị tràn */
+  text-overflow: ellipsis; /
+}

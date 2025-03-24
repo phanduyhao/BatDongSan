@@ -31,9 +31,7 @@
                         <div class="card-header fw-bold">Cấu hình Logo</div>
                         <div class="card-body text-center">
                             <input type="file" class="form-control mb-2" name="logo">
-                            @if(isset($settings['logo']))
-                                <img src="{{ asset($settings['logo']) }}" alt="Logo" class="img-fluid rounded" width="150">
-                            @endif
+                            <img src="{{ $settings['logo'] }}" alt="Logo" class="img-fluid rounded" width="150">
                         </div>
                     </div>
                 </div>
@@ -44,9 +42,7 @@
                         <div class="card-header fw-bold">Cấu hình Banner Trang Chủ</div>
                         <div class="card-body text-center">
                             <input type="file" class="form-control mb-2" name="banner">
-                            @if(isset($settings['banner']))
-                                <img src="{{ asset($settings['banner']) }}" alt="Banner" class="img-fluid rounded" width="250">
-                            @endif
+                            <img src="{{ $settings['banner'] }}" alt="Banner" class="img-fluid rounded" width="250">
                         </div>
                     </div>
                 </div>
