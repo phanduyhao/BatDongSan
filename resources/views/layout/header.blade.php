@@ -106,7 +106,7 @@
                         {{ Auth::user()->name }}
                     </a>
                     <ul class="nav-dropdown nav-submenu py-0">
-                        @if(Auth::user()->role='admin')
+                        @if(Auth::user()->role!='user')
                           <li>
                             <a href="/admin">Quản trị</a>
                           </li>

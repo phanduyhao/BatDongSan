@@ -27,7 +27,7 @@
             </a>
         </li>
 
-
+        @if(Auth::user()->role != 'nhanvien')
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Người dùng</span>
         </li>
@@ -49,6 +49,7 @@
                 </li>
             </ul>
         </li>
+        @endif
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Công việc</span>
         </li>
@@ -89,40 +90,7 @@
                 </li>
             </ul>
         </li>
-        <li class='menu-item'>
-            <a href='' class='menu-link'>
-                <i class='menu-icon tf-icons bx bx-street-view'></i>
-                <div data-i18n='Layouts'>Quản lý đơn đã ứng tuyển</div>
-            </a>
-        </li>
-        <li class='menu-item'>
-            <a href='' class='menu-link'>
-                <i class='menu-icon tf-icons bx bx-news'></i>
-                <div data-i18n='Layouts'>Quản lý bài viết</div>
-            </a>
-        </li>
-        
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Khác</span>
-        </li>
-        <li class='menu-item'>
-            <a href='' class='menu-link'>
-                <i class="menu-icon tf-icons bx bx-comment-detail"></i>
-                <div data-i18n='Layouts'>Quản lý phản hồi</div>
-            </a>
-        </li>
-        <li class='menu-item'>
-            <a href='' class='menu-link'>
-                <i class='menu-icon tf-icons bx bx-food-menu'></i>
-                <div data-i18n='Layouts'>Lịch sử doanh thu</div>
-            </a>
-        </li>
-        <li class='menu-item'>
-            <a href='' class='menu-link'>
-                <i class='menu-icon tf-icons bx bx-food-menu'></i>
-                <div data-i18n='Layouts'>Lịch sử gửi mail</div>
-            </a>
-        </li>
+       
         <li class='menu-item'>
             <a href='{{route('settings.index')}}' class='menu-link'>
                 <i class="menu-icon tf-icons bx bx-cog"></i>

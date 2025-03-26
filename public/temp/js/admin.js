@@ -122,7 +122,7 @@ $(document).ready(function () {
                     window.location.reload()
                 },
                 error: function(error){
-                    alert('Bạn không có quyền thực hiện hành động này!')
+                    console.log(error);
                 }
             });
         });

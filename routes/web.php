@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/upload', [PostController::class, 'store'])->name('dangbai');
         Route::post('/isVip/{id}', [PostController::class, 'toggleIsVip']);
         Route::post('/update-status', [PostController::class, 'updateStatus']);
+        Route::post("/delete-image", [PostController::class, "deleteImage"])->name("delete.image");
+        Route::post('/update/{id}', [PostController::class, 'update'])->name('updateBaidang');
 
     });
 
@@ -45,6 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/update/{user}', [ProfileController::class,'updateProfile'])->name('profile.update');
         Route::get('/list-baidang', [ProfileController::class,'listBaidang'])->name('profile.listBaidang');
         Route::get('/{slug}/edit', [ProfileController::class, 'editBaidang'])->name('baidang.edit');
+        Route::get('/showChangePass', [ProfileController::class, 'showChangePass'])->name('showChangePass');
+        Route::post('/change-password', [ProfileController::class, 'changePass'])->name('changePass');
 
     });
 
@@ -55,6 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('users', AdminUserController::class);
             Route::get('/adminUser', [AdminUserController::class, 'adminUser'])->name('adminUser');
             Route::get('/user', [AdminUserController::class, 'user'])->name('user');
+            Route::delete('/user/delete/{id}', [AdminUserController::class, 'destroy'])->name('destroyUser');
 
             // Quản lý Job_Category
             Route::resource('thietbi', AdminThietbiController::class);

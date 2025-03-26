@@ -20,7 +20,7 @@ return new class extends Migration
             $table->json('images')->nullable(); // Ảnh
             $table->text('description')->nullable(); // Mô tả chi tiết
             $table->integer('price')->nullable(); // Giá thuê (đơn vị: VNĐ)
-            $table->decimal('dientich'); // Diện tích (m²)
+            $table->decimal('dientich')->nullable(); // Diện tích (m²)
             $table->integer('bedrooms')->default(0); // Số phòng ngủ
             $table->integer('bathrooms')->default(0); // Số phòng vệ sinh
             $table->string('huongnha')->nullable(); // Hướng nhà (Đông, Tây,...)

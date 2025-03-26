@@ -60,7 +60,7 @@
                                     <ul>
                                         <li><a href="{{route('profile.index')}}"><i class="fa-solid fa-gauge"></i>Tổng quát</a></li>
                                         <li class="active"><a href="{{route('profile.listBaidang')}}"><i class="fa-solid fa-address-card"></i>Danh sách bài đăng</a></li>
-                                        <li><a href="change-password.html"><i class="fa-solid fa-unlock"></i>Change Password</a></li>
+                                        <li><a href="{{route('showChangePass')}}"><i class="fa-solid fa-unlock"></i>Thay đổi mật khẩu</a></li>
                                     </ul>
                                 </div>
                                 

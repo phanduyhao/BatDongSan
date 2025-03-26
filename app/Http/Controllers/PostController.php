@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Ward;
 use App\Models\Address;
 use App\Models\Baidang;
-use App\Models\BaidangChitiet;
 use App\Models\Thietbi;
 use App\Models\District;
 use App\Models\Province;
@@ -15,11 +15,12 @@ use App\Models\Loainhadat;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Baidanglienhe;
+use App\Models\BaidangChitiet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -57,7 +58,6 @@ class PostController extends Controller
             'title' => $title
         ]);
     }
-    
 
     public function getByLoaiNhadat(Request $request, $slug) {
         // Lấy thông tin loại nhà đất theo slug
@@ -79,7 +79,6 @@ class PostController extends Controller
         ]);
     }
     
-    
     public function store(Request $request)
     {
 
@@ -94,6 +93,8 @@ class PostController extends Controller
             'email_contact' => 'required|email',
             'phone_contact' => 'nullable|string',
             'link_zalo' => 'nullable|string',
+            'facebook' => 'nullable|string',
+            'telegram' => 'nullable|string',
             'images' => 'nullable|array',
             'thietbis' => 'nullable|array',
             'video' => 'nullable|mimes:mp4,mov,avi,wmv|max:10000',
@@ -153,6 +154,8 @@ class PostController extends Controller
             $contact->phone = $request->phone_contact;
             $contact->email = $request->email_contact;
             $contact->zalo_link = $request->link_zalo;
+            $contact->facebook = $request->facebook;
+            $contact->telegram = $request->telegram;
             $contact->save();
             
             // Xử lý thiết bị
@@ -265,7 +268,6 @@ class PostController extends Controller
     
         return response()->json(['success' => true, 'message' => 'Trạng thái đã được cập nhật.']);
     }
-    
 
     // Xem preview Bài đăng
     public function baidangDetail($slug)
@@ -384,4 +386,184 @@ class PostController extends Controller
         return $query;
     }
     
+    public function deleteImage(Request $request)
+    {
+        $imagePath = str_replace(asset("storage/"), "", $request->image); // Lấy đường dẫn file thực tế
+        $baidang = BaiDang::where("images", "LIKE", "%{$imagePath}%")->first();
+
+        if (!$baidang) {
+            return response()->json(["success" => false, "message" => "Không tìm thấy bài đăng!"]);
+        }
+
+        // Xóa ảnh khỏi storage
+        if (Storage::disk("public")->exists($imagePath)) {
+            Storage::disk("public")->delete($imagePath);
+        }
+
+        // Cập nhật JSON images trong database
+        $images = json_decode($baidang->images, true) ?? [];
+        $images = array_filter($images, function ($img) use ($imagePath) {
+            return $img !== $imagePath; // Loại bỏ ảnh đã xóa
+        });
+
+        $baidang->images = json_encode(array_values($images)); // Lưu lại
+        $baidang->save();
+
+        return response()->json(["success" => true]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Kiểm tra bài đăng có tồn tại không
+        $baidang = Baidang::find($id);
+        if (!$baidang) {
+            return response()->json(['status' => 'error', 'message' => 'Bài đăng không tồn tại'], 404);
+        }
+
+        // Xác thực dữ liệu đầu vào
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'mohinh' => 'required|string',
+            'loainhadat_id' => 'required|numeric',
+            'bedrooms' => 'required|integer',
+            'bathrooms' => 'required|integer',
+            'description' => 'nullable|string',
+            'email_contact' => 'required|email',
+            'phone_contact' => 'nullable|string',
+            'link_zalo' => 'nullable|string',
+            'facebook' => 'nullable|string',
+            'telegram' => 'nullable|string',
+            'images' => 'nullable|array',
+            'thietbis' => 'nullable|array',
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
+        }
+
+        try {
+            DB::beginTransaction();
+            $provinceCode = $request->input('province');
+            $provinceName = $request->input('province_name');
+            $province = null;
+            if ($provinceCode) {
+                $province = Province::where('code', $provinceCode)->first();
+                if (!$province) {
+                    $province = new Province();
+                    $province->code = $provinceCode;
+                    $province->name = $provinceName;
+                    $province->save();
+                }
+            }
+
+            // Xử lý quận/huyện
+            $districtCode = $request->input('districts');
+            $districtName = $request->input('district_name');
+            $district = null;
+            if ($districtCode && $province) {
+                $district = District::where('code', $districtCode)->first();
+                if (!$district) {
+                    $district = new District();
+                    $district->code = $districtCode;
+                    $district->name = $districtName;
+                    $district->province_id = $province->id;
+                    $district->save();
+                }
+            }
+
+            // Xử lý phường/xã
+            $wardCode = $request->input('wards');
+            $wardName = $request->input('ward_name');
+            $ward = null;
+            if ($wardCode && $district) {
+                $ward = Ward::where('code', $wardCode)->first();
+                if (!$ward) {
+                    $ward = new Ward();
+                    $ward->code = $wardCode;
+                    $ward->name = $wardName;
+                    $ward->district_id = $district->id;
+                    $ward->save();
+                }
+            }
+
+            // Cập nhật hoặc tạo mới địa chỉ
+            $address = Address::find($baidang->address_id);
+            if ($address) {
+                $address->street = $request->input('street');
+                $address->latitude = $request->input('latitude');
+                $address->longitude = $request->input('longitude');
+                $address->ward_id = $ward->id;
+                $address->save();
+            } else {
+                $address = new Address();
+                $address->street = $request->input('street');
+                $address->latitude = $request->input('latitude');
+                $address->longitude = $request->input('longitude');
+                $address->ward_id = $ward->id;
+                $address->save();
+
+                // Gán địa chỉ mới cho bài đăng
+                $baidang->address_id = $address->id;
+            }
+
+            // Cập nhật thông tin liên hệ
+            $contact = Baidanglienhe::find($baidang->lienhe_id);
+            if ($contact) {
+                $contact->agent_name = $request->name_contact;
+                $contact->phone = $request->phone_contact;
+                $contact->email = $request->email_contact;
+                $contact->zalo_link = $request->link_zalo;
+                $contact->facebook = $request->facebook;
+                $contact->telegram = $request->telegram;
+                $contact->save();
+            }
+
+            // Cập nhật danh sách thiết bị
+            $thietbis = [];
+            if ($request->has('thietbis')) {
+                foreach ($request->input('thietbis') as $id => $name) {
+                    $icon = $request->input("icon_thietbi.{$id}") ?? null;
+                    $thietbis[] = ['name' => $name, 'icon' => $icon];
+                }
+            }
+
+            // Cập nhật thông tin bài đăng
+            $baidang->title = $request->title;
+            $baidang->mohinh = $request->mohinh;
+            $baidang->loainhadat_id = $request->loainhadat_id;
+            $baidang->price = $request->price;
+            $baidang->dientich = $request->area;
+            $baidang->bedrooms = $request->bedrooms;
+            $baidang->bathrooms = $request->bathrooms;
+            $baidang->description = $request->description;
+            $baidang->huongnha = $request->huongnha;
+            $baidang->huongbancong = $request->huongbancong;
+            $baidang->age = $request->age;
+            $baidang->thietbis = json_encode($thietbis);
+
+            // Cập nhật ảnh (thêm mới, không xóa ảnh cũ)
+            $imagePaths = json_decode($baidang->images, true) ?? [];
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    if ($image->isValid()) {
+                        $fileName = Str::slug($request->title) . '-' . time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                        $image->move(public_path('/temp/images/baidang/'), $fileName);
+                        $imagePaths[] = '/temp/images/baidang/' . $fileName;
+                    }
+                }
+            }
+            $baidang->images = json_encode($imagePaths);
+            $baidang->thumb = $imagePaths[0] ?? null;
+            
+            $baidang->save();
+            DB::commit();
+
+            return response()->json(['status' => 'success', 'message' => 'Bài đăng đã được cập nhật thành công!', 'baidang' => $baidang]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi xảy ra khi cập nhật bài đăng: '. $e->getMessage());
+            return response()->json(['status' => 'error'], 500);
+        }
+    }
+
 }

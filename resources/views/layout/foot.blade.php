@@ -115,7 +115,38 @@ $(".status-select").on("change", function () {
         }
     });
 });
+$(document).on("submit", "#form-change-password", function (e) {
+    e.preventDefault();
+    let form = $(this);
+    let formData = form.serialize();
 
+    // Xóa lỗi cũ trước khi gửi
+    $(".error-message").text("");
+
+    $.ajax({
+        url: form.attr("action"),
+        type: "POST",
+        data: formData,
+        beforeSend: function () {
+            $(".btn-primary").prop("disabled", true);
+        },
+        success: function (response) {
+            $(".btn-primary").prop("disabled", false);
+            alert(response.message); // Hoặc hiển thị thông báo thành công đẹp hơn
+            form[0].reset(); // Reset form nếu đổi mật khẩu thành công
+        },
+        error: function (xhr) {
+            $(".btn-primary").prop("disabled", false);
+            let errors = xhr.responseJSON.errors;
+
+            // Hiển thị lỗi ngay dưới mỗi input
+            for (let key in errors) {
+                let errorMessage = errors[key][0]; // Lấy lỗi đầu tiên
+                $(`input[name="${key}"]`).next(".error-message").text(errorMessage);
+            }
+        }
+    });
+});
 
 </script>
 

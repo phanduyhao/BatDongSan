@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('phone')->unique()->nullable();
             $table->string('avatar')->nullable();
-            $table->enum('role', ['user', 'admin'])->default('user');
+            $table->enum('role', ['user', 'admin','nhanvien'])->default('user');
             $table->timestamps();
         });
     }

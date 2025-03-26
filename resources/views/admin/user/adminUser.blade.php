@@ -100,6 +100,15 @@
                                         name='password' data-require='Mời nhập mật khẩu'
                                     />
                                 </div>
+                                <div class="mb-3">
+                                    <label class='form-label' for='basic-default-company' >Mật khẩu</label>
+                                    <select class="form-control shadow-none" name="role">
+                                        <option value="">Chọn quyền</option>
+                                        <option value="user" >Người dùng</option>
+                                        <option value="nhanvien" >Nhân viên</option>
+                                        <option value="quantri" >Quản trị</option>
+                                    </select>
+                                </div>
                                 <input type="text" class="d-none" value="1" name="role_id">
                                 <div class="modal-footer">
                                     <button type='submit' class='btn btn-success fw-semibold text-dark'>Thêm mới</button>
@@ -131,7 +140,7 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->phone}}</td>
-                            <td>Quản trị</td>
+                            <td>{{$user->role == 'admin' ? 'Quản trị' : 'Nhân viên' }}</td>
                             <td>{{$user->updated_at}}</td>
                             <td class="">
                                 <button type="button" data-url="/admin/users/{{$user->id}}" data-id="{{$user->id}}" class="btn btn-danger btnDeleteAsk px-2 me-2 py-1 fw-bolder" data-bs-toggle="modal" data-bs-target="#deleteModal{{$user->id}}">Xóa</button>

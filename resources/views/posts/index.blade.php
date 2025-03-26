@@ -23,7 +23,7 @@
         <div class="row">
             <!-- Submit Form -->
             <div class="col-lg-12 col-md-12">
-           <form id="form-dang-tin" method="POST" action="{{route('dangbai')}}" enctype="multipart/form-data">
+           <form id="form-dang-tin" class="form-baidang" method="POST" action="{{route('dangbai')}}" enctype="multipart/form-data">
             @csrf
             <div class="submit-page" style="line-height: 3rem">
                 <!-- Basic Information -->
@@ -67,13 +67,13 @@
                             </div>
 
                             <div class="form-group col-md-3 col-sm-4 col-12">
-                                <label> <span class="text-danger">*</span> Tổng số phòng</label>
-                                <input type="number" class="form-control input-field" name="tongsophong" value="0" data-require='Mời nhập tổng số phòng'>
+                                <label id="label-so-tang"><span class="text-danger">*</span> Số tầng</label>
+                                <input type="number" class="form-control" id="input-so-tang" name="tongsotang" value="0">
                             </div>
-
+                            
                             <div class="form-group col-md-3 col-sm-4 col-12">
-                                <label>Số tầng</label>
-                                <input type="number" class="form-control" name="tongsotang" value="0" >
+                                <label id="label-so-phong"><span class="text-danger">*</span> Tổng số phòng</label>
+                                <input type="number" class="form-control input-field" id="input-so-phong" name="tongsophong" value="0" data-require="Mời nhập tổng số phòng">
                             </div>
 
                             <div class="form-group col-md-3 col-sm-4 col-12">
@@ -300,18 +300,18 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Link Facebook</label>
-                                <input type="text" class="form-control" name="link_fb">
+                                <input type="text" class="form-control" name="facebook">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Link Telegram</label>
-                                <input type="text" class="form-control" name="link_tele">
+                                <input type="text" class="form-control" name="telegram">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group col-lg-12 col-md-12">
-                    <button class="btn btn-primary fw-medium px-5" type="submit">Gửi & Xem Trước</button>
+                    <button class="btn btn-primary fw-medium px-5" type="submit">Đăng bài</button>
                 </div>
             </div>
            </form>

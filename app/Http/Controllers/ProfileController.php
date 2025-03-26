@@ -9,6 +9,8 @@ use App\Models\Loainhadat;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
@@ -115,6 +117,49 @@ class ProfileController extends Controller
         $baidang = Baidang::where('slug', $slug)->first();
         return view('profile.editBaiDang', compact('baidang','loainhadats','thietbis'),[
             'title' => 'Chỉnh sửa bài đăng'
+        ]);
+    }
+
+    public function showChangePass(){
+        return view('profile.changePass', [
+            'title' => 'Thay đổi mật khẩu'
+        ]);
+    }
+
+    public function changePass(Request $request)
+    {
+        $user = Auth::user(); // ✅ Lấy user đang đăng nhập
+    
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ], [
+            'old_password.required' => 'Vui lòng nhập mật khẩu cũ!',
+            'new_password.required' => 'Vui lòng nhập mật khẩu mới!',
+            'new_password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự!',
+            'new_password.confirmed' => 'Mật khẩu xác nhận không khớp!',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+    
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => ['old_password' => ['Mật khẩu cũ không đúng!']],
+            ], 422);
+        }
+    
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+    
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Đổi mật khẩu thành công!',
         ]);
     }
 }

@@ -23,7 +23,7 @@
         <div class="row">
             <!-- Submit Form -->
             <div class="col-lg-12 col-md-12">
-           <form id="form-dang-tin" method="POST" action="{{ route('baidang.edit', $baidang->slug) }}" enctype="multipart/form-data">
+           <form id="form-capnhat-tin" class="form-baidang" method="POST" action="{{ route('updateBaidang', $baidang->id) }}" enctype="multipart/form-data">
             @csrf
             <div class="submit-page" style="line-height: 3rem">
                 <!-- Basic Information -->
@@ -142,7 +142,7 @@
                                 <div id="previewContainer" class="preview-container" data-images="{{ json_encode($baidang->images ?? []) }}">
                                     @foreach(json_decode($baidang->images, true) ?? [] as $image)
                                         <div class="image-preview">
-                                            <img src="{{ asset('storage/' . (is_array($image) ? $image['image'] : $image)) }}" alt="">
+                                            <img src="{{ (is_array($image) ? $image['image'] : $image) }}" alt="">
                                             <span class="remove-btn" data-image-url="{{ is_array($image) ? $image['image'] : $image }}">×</span>
                                         </div>
                                     @endforeach
@@ -153,27 +153,6 @@
                         </div>
                     </div>
                 </div>
-{{--                 
-                <div class="form-submit">	
-                    <h3>Video</h3>
-                    <div class="submit-section">
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <div id="videoUploadBox" class="upload-box">
-                                    <div class="upload-area">
-                                        <i class="fa-solid fa-video upload-icon"></i>
-                                        <p>Nhấn để chọn video</p>
-                                        <input type="file" id="videoInput" name="video" accept="video/*" hidden>
-                                    </div>
-                                </div>
-                                
-                                <div id="videoPreviewContainer" class="preview-container"></div>
-                                <input type="hidden" name="video_url" id="video_url">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
                 <!-- Location -->
                 <div class="form-submit">
                     <h3>Địa Chỉ</h3>
@@ -182,7 +161,7 @@
                             <div class="form-group col-md-3 col-6">
                                 <label> <span class="text-danger">*</span> Tỉnh/ Thành phố</label>
                                 <select id="province" class="form-control input-field" name="province" data-require='Mời chọn tỉnh thành'>
-                                    <option value="">Chọn tỉnh/thành</option>
+                                    <option value="{{$baidang->address->ward->district->province->code}}">{{$baidang->address->ward->district->province->name}}</option>
                                 </select>
                                 <input type="hidden" name="province_name" id="province_name">
 
@@ -190,8 +169,8 @@
             
                             <div class="form-group col-md-3 col-6">
                                 <label> <span class="text-danger">*</span> Quận/ Huyện</label>
-                                <select id="district" class="form-control input-field" disabled name="districts" data-require='Mời chọn quận huyện'>
-                                    <option value="">Chọn quận/huyện</option>
+                                <select id="district" class="form-control input-field" name="districts" data-require='Mời chọn quận huyện'>
+                                    <option value="{{$baidang->address->ward->district->code}}">{{$baidang->address->ward->district->name}}</option>
                                 </select>
                                 <input type="hidden" name="district_name" id="district_name">
 
@@ -199,8 +178,8 @@
             
                             <div class="form-group col-md-3 col-6">
                                 <label> <span class="text-danger">*</span> Phường/ Xã</label>
-                                <select id="ward" class="form-control input-field" disabled name="wards" data-require='Mời chọn phường xã'>
-                                    <option value="">Chọn phường/xã</option>
+                                <select id="ward" class="form-control input-field" name="wards" data-require='Mời chọn phường xã'>
+                                    <option value="{{$baidang->address->ward->code}}">{{$baidang->address->ward->name}}</option>
                                 </select>
                                 <input type="hidden" name="ward_name" id="ward_name">
 
@@ -208,7 +187,7 @@
             
                             <div class="form-group col-md-3 col-6">
                                 <label>Đường/ Phố</label>
-                                <input type="text" id="street" class="form-control" placeholder="Nhập đường/phố" name="address">
+                                <input type="text" id="street" class="form-control" placeholder="Nhập đường/phố"  value="{{$baidang->address->street}}" name="address">
                             </div>
                             <input type="hidden" name="latitude" id="latitude">
                             <input type="hidden" name="Longitude" id="Longitude">
@@ -229,56 +208,71 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Mô Tả</label>
-                                <textarea id="description_post" class="form-control h-120 description_post ckeditor" name="description"></textarea>
+                                <textarea id="description_post" class="form-control h-120 description_post ckeditor" name="description">{{$baidang->description}}</textarea>
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label>Tuổi Tòa Nhà (tùy chọn)</label>
                                 <select id="bage" class="form-control" name="age">
-                                    <option value="0 - 5 Năm">0 - 5 Năm</option>
-                                    <option value="0 - 10 Năm">0 - 10 Năm</option>
-                                    <option value="0 - 15 Năm">0 - 15 Năm</option>
-                                    <option value="0 - 20 Năm">0 - 20 Năm</option>
-                                    <option value="20+ Năm">20+ Năm</option>
+                                    <option value="0 - 5 Năm" {{ $baidang->age == "0 - 5 Năm" ? 'selected' : '' }}>0 - 5 Năm</option>
+                                    <option value="0 - 10 Năm" {{ $baidang->age == "0 - 10 Năm" ? 'selected' : '' }}>0 - 10 Năm</option>
+                                    <option value="0 - 15 Năm" {{ $baidang->age == "0 - 15 Năm" ? 'selected' : '' }}>0 - 15 Năm</option>
+                                    <option value="0 - 20 Năm" {{ $baidang->age == "0 - 20 Năm" ? 'selected' : '' }}>0 - 20 Năm</option>
+                                    <option value="20+ Năm" {{ $baidang->age == "20+ Năm" ? 'selected' : '' }}>20+ Năm</option>
                                 </select>
+                                
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Hướng nhà</label>
                                 <select id="house_direction" class="form-control" name="huongnha">
                                     <option value="">Chọn hướng nhà</option>
-                                    <option value="Đông">Đông</option>
-                                    <option value="Tây">Tây</option>
-                                    <option value="Nam">Nam</option>
-                                    <option value="Bắc">Bắc</option>
-                                    <option value="Đông Bắc">Đông Bắc</option>
-                                    <option value="Đông Nam">Đông Nam</option>
-                                    <option value="Tây Bắc">Tây Bắc</option>
-                                    <option value="Tây Nam">Tây Nam</option>
+                                    <option value="Đông" {{ $baidang->huongnha == "Đông" ? 'selected' : '' }}>Đông</option>
+                                    <option value="Tây" {{ $baidang->huongnha == "Tây" ? 'selected' : '' }}>Tây</option>
+                                    <option value="Nam" {{ $baidang->huongnha == "Nam" ? 'selected' : '' }}>Nam</option>
+                                    <option value="Bắc" {{ $baidang->huongnha == "Bắc" ? 'selected' : '' }}>Bắc</option>
+                                    <option value="Đông Bắc" {{ $baidang->huongnha == "Đông Bắc" ? 'selected' : '' }}>Đông Bắc</option>
+                                    <option value="Đông Nam" {{ $baidang->huongnha == "Đông Nam" ? 'selected' : '' }}>Đông Nam</option>
+                                    <option value="Tây Bắc" {{ $baidang->huongnha == "Tây Bắc" ? 'selected' : '' }}>Tây Bắc</option>
+                                    <option value="Tây Nam" {{ $baidang->huongnha == "Tây Nam" ? 'selected' : '' }}>Tây Nam</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Hướng ban công</label>
                                 <select id="balcony_direction" class="form-control" name="huongbancong">
                                     <option value="">Chọn hướng ban công</option>
-                                    <option value="Đông">Đông</option>
-                                    <option value="Tây">Tây</option>
-                                    <option value="Nam">Nam</option>
-                                    <option value="Bắc">Bắc</option>
-                                    <option value="Đông Bắc">Đông Bắc</option>
-                                    <option value="Đông Nam">Đông Nam</option>
-                                    <option value="Tây Bắc">Tây Bắc</option>
-                                    <option value="Tây Nam">Tây Nam</option>
+                                    <option value="Đông" {{ $baidang->huongnha == "Đông" ? 'selected' : '' }}>Đông</option>
+                                    <option value="Tây" {{ $baidang->huongnha == "Tây" ? 'selected' : '' }}>Tây</option>
+                                    <option value="Nam" {{ $baidang->huongnha == "Nam" ? 'selected' : '' }}>Nam</option>
+                                    <option value="Bắc" {{ $baidang->huongnha == "Bắc" ? 'selected' : '' }}>Bắc</option>
+                                    <option value="Đông Bắc" {{ $baidang->huongnha == "Đông Bắc" ? 'selected' : '' }}>Đông Bắc</option>
+                                    <option value="Đông Nam" {{ $baidang->huongnha == "Đông Nam" ? 'selected' : '' }}>Đông Nam</option>
+                                    <option value="Tây Bắc" {{ $baidang->huongnha == "Tây Bắc" ? 'selected' : '' }}>Tây Bắc</option>
+                                    <option value="Tây Nam" {{ $baidang->huongnha == "Tây Nam" ? 'selected' : '' }}>Tây Nam</option>
                                 </select>
                             </div>
+                            
+                            @php
+                                // Lấy danh sách thiết bị đã chọn từ dữ liệu bài đăng (chuyển JSON thành mảng)
+                                $selectedThietBis = json_decode($baidang->thietbis ?? '[]', true);
+                                $selectedThietBiNames = array_column($selectedThietBis, 'name'); // Lấy danh sách tên
+                            @endphp
                             
                             <div class="form-group col-md-12">
                                 <label>Thiết bị / Nội thất</label>
                                 <div class="o-features">
                                     <ul class="no-ul-list third-row">
                                         @foreach($thietbis as $thietbi)
+                                            @php
+                                                // Kiểm tra nếu thiết bị có trong danh sách đã chọn
+                                                $isChecked = in_array($thietbi->title, $selectedThietBiNames);
+                                            @endphp
                                             <li class="d-flex align-items-center gap-2">
-                                                <input id="{{$thietbi->id}}" class="form-check-input" name="thietbis[{{$thietbi->id}}]" type="checkbox" value="{{$thietbi->title}}">
+                                                <input id="{{$thietbi->id}}" class="form-check-input" 
+                                                    name="thietbis[{{$thietbi->id}}]" type="checkbox" 
+                                                    value="{{$thietbi->title}}" {{ $isChecked ? 'checked' : '' }}>
+                            
                                                 <input type="hidden" name="icon_thietbi[{{$thietbi->id}}]" value="{{$thietbi->icon}}">
+                                                
                                                 <div>
                                                     @if($thietbi->icon != null)
                                                         <img src="{{$thietbi->icon}}" width="30px" alt="">
@@ -290,6 +284,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -299,38 +294,39 @@
                     <h3>Thông Tin Liên Hệ</h3>
                     <div class="submit-section">
                         <div class="row">
+                            
                             <div class="form-group col-md-4">
                                 <label> <span class="text-danger">*</span> Tên</label>
-                                <input type="text" class="form-control input-field" name="name_contact" value="{{Auth::user()->name}}" data-require='Mời nhập danh thiếp'>
+                                <input type="text" class="form-control input-field" name="name_contact" value="{{$baidang->lienhe->agent_name}}" data-require='Mời nhập danh thiếp'>
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label> <span class="text-danger">*</span> Email</label>
-                                <input type="text" class="form-control input-field" name="email_contact" value="{{Auth::user()->email}}" data-require='Mời nhập email'>
+                                <input type="text" class="form-control input-field" name="email_contact" value="{{$baidang->lienhe->email}}" data-require='Mời nhập email'>
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label> <span class="text-danger">*</span> Điện Thoại (tùy chọn)</label>
-                                <input type="text" class="form-control input-field" name="phone_contact" value="{{Auth::user()->phone}}" data-require='Mời nhập số điện thoại'>
+                                <input type="text" class="form-control input-field" name="phone_contact" value="{{$baidang->lienhe->phone}}" data-require='Mời nhập số điện thoại'>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Link zalo</label>
-                                <input type="text" class="form-control" name="link_zalo">
+                                <input type="text" class="form-control" name="link_zalo" value="{{$baidang->lienhe->zalo_link}}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Link Facebook</label>
-                                <input type="text" class="form-control" name="link_fb">
+                                <input type="text" class="form-control" name="facebook" value="{{$baidang->lienhe->facebook}}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Link Telegram</label>
-                                <input type="text" class="form-control" name="link_tele">
+                                <input type="text" class="form-control" name="telegram" value="{{$baidang->lienhe->telegram}}">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group col-lg-12 col-md-12">
-                    <button class="btn btn-primary fw-medium px-5" type="submit">Gửi & Xem Trước</button>
+                    <button class="btn btn-primary fw-medium px-5" type="submit">Cập nhật</button>
                 </div>
             </div>
            </form>

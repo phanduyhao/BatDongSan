@@ -333,8 +333,10 @@ $uploadBox.on("click", function (event) {
     // });
 
 
-    $('#form-dang-tin').submit(function (e) {
+    $('.form-baidang').submit(function (e) {
         e.preventDefault();
+        const id = $(this).attr('id');
+        const action = $(this).attr('action');
         let descriptionContent = CKEDITOR.instances['description_post'].getData();
         $('textarea[name="description"]').val(descriptionContent); // Cập nhật dữ liệu vào form
 
@@ -349,7 +351,7 @@ $uploadBox.on("click", function (event) {
             console.log(pair[0], pair[1]); 
         }
         $.ajax({
-            url: "/posts/upload",
+            url: action,
             type: "POST",
             data: formData,
             processData: false,
@@ -360,12 +362,13 @@ $uploadBox.on("click", function (event) {
             success: function (response) {
                 $('#loading').hide();
                 if (response.status === "success") {
-                    $('#form-dang-tin')[0].reset();
+                    if( id == 'form-dang-tin'){
+                        $('#form-dang-tin')[0].reset();
+                    }
                     $('#form-dang-tin input[type="file"]').val('');
                     uploadedFiles = []; // ✅ Xóa danh sách file đã chọn
                     $('#previewContainer').empty(); // ✅ Xóa ảnh xem trước
                     $("html, body").animate({ scrollTop: 0 }, "fast");
-            
                     toastr.success("✅ Đăng tin thành công!");
                 } else {
                     alert("Có lỗi xảy ra, vui lòng thử lại!");
@@ -393,19 +396,14 @@ $uploadBox.on("click", function (event) {
         if (!confirm("Bạn có chắc chắn muốn xóa ảnh này?")) return;
 
         $.ajax({
-            url: "/delete-image", // Đường dẫn đến controller xử lý
+            url: "/posts/delete-image", // Đường dẫn đến controller xử lý
             type: "POST",
             data: {
                 image: imageUrl, // Gửi URL ảnh cần xóa
                 _token: $('meta[name="csrf-token"]').attr("content"), // CSRF token
             },
             success: function (response) {
-                if (response.success) {
-                    $previewItem.remove(); // Xóa ảnh khỏi giao diện nếu xóa thành công
-                    alert("Ảnh đã được xóa thành công.");
-                } else {
-                    alert("Xóa ảnh thất bại!");
-                }
+                $previewItem.remove(); // Xóa ảnh khỏi giao diện nếu xóa thành công
             },
             error: function () {
                 alert("Có lỗi xảy ra, vui lòng thử lại.");

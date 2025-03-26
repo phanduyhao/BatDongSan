@@ -17,7 +17,7 @@ class AdminUserController extends Controller
      */
     public function adminUser(Request $request)
     {
-        $query = User::where('role', 'admin');
+        $query = User::where('role','!=', 'user');
     
         // Tìm kiếm theo ID
         if ($request->input('search_id')) {
@@ -93,7 +93,7 @@ class AdminUserController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->password = $request->password;
-        $user->role = "admin";
+        $user->role = $request->role;
         $user->save();
         return redirect()->back();
     }
@@ -142,6 +142,7 @@ class AdminUserController extends Controller
         $user->name = $request->name;
         $user->phone = $request->phone;
         $user->email = $request->email;
+        $user->role = $request->role;
         if($request->password != null ){
             $user->password = $request->password;
         }
