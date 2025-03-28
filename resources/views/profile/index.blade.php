@@ -35,7 +35,7 @@
                         
             <div class="row">
                 
-                <div class="col-lg-3 col-md-12">
+                <div class="col-lg-2 col-md-12">
                     
                     <div class="simple-sidebar sm-sidebar" id="filter_search">
                         
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-9 col-md-12">
+                <div class="col-lg-10 col-md-12">
                     <div class="row">
                      
                         <div class="col-lg-3 col-md-6 col-sm-12">
@@ -111,7 +111,7 @@
                             <form method="POST" action="{{ route('profile.update',['user' => $user]) }}" enctype="multipart/form-data" class="submit-section mt-5">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group col-12">
                                             <div class="fr-grid-thumb mx-auto">
                                                 <!-- Avatar Preview -->
@@ -130,7 +130,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-8 row">
+                                    <div class="col-md-8 col-12 row">
                                         <div class="form-group col-md-6">
                                             <label>Tên</label>
                                             <input type="text" class="form-control" name="name" value="{{Auth::user()->name}}">

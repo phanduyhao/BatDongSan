@@ -1,4 +1,4 @@
-<link rel="icon" type="image/x-icon" href="/temp//temp/assets/images/general/favicon.png" />
+<link rel="icon" type="image/x-icon" sizes="5760x5760" href="{{$settings['logo']}}" /><!-- Place favicon.ico in the root directory -->
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />

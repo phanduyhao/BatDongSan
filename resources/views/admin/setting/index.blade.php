@@ -25,6 +25,14 @@
             @csrf
 
             <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="autoApproveSwitch" 
+                               {{ isset($settings['tudongduyet']) && $settings['tudongduyet'] == 1 ? 'checked' : '' }}>
+                        <label class="form-check-label" for="autoApproveSwitch">Tự động duyệt bài</label>
+                    </div>
+                </div>
+                
                 <!-- Cấu hình Logo -->
                 <div class="col-md-6">
                     <div class="card shadow-sm mb-4">
@@ -48,7 +56,7 @@
                 </div>
 
                 <!-- Cấu hình Số điện thoại -->
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card shadow-sm mb-4">
                         <div class="card-header fw-bold">Cấu hình Số điện thoại</div>
                         <div class="card-body">
@@ -58,11 +66,36 @@
                 </div>
 
                 <!-- Cấu hình Email -->
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card shadow-sm mb-4">
                         <div class="card-header fw-bold">Cấu hình Email</div>
                         <div class="card-body">
                             <input type="email" class="form-control" name="email" value="{{ $settings['email'] ?? '' }}" placeholder="Nhập email">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header fw-bold">Cấu hình Facebook</div>
+                        <div class="card-body">
+                            <input type="text" class="form-control" name="link_fb" value="{{ $settings['link_fb'] ?? '' }}" placeholder="Nhập link facebook">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header fw-bold">Cấu hình Telegram</div>
+                        <div class="card-body">
+                            <input type="text" class="form-control" name="link_telegram" value="{{ $settings['link_telegram'] ?? '' }}" placeholder="Nhập link Telegeram">
+                        </div>
+                    </div>
+                </div>
+                <!-- Cấu hình Email -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header fw-bold">Cấu hình địa chỉ</div>
+                        <div class="card-body">
+                            <input type="email" class="form-control" name="address" value="{{ $settings['address'] ?? '' }}" placeholder="Nhập địa chỉ">
                         </div>
                     </div>
                 </div>
@@ -75,3 +108,25 @@
         </form>
     </div>
 @endsection
+<script>
+    $(document).ready(function () {
+        $('#autoApproveSwitch').change(function () {
+            let status = $(this).prop('checked') ? 1 : 0; // Lấy trạng thái (1 nếu bật, 0 nếu tắt)
+
+            $.ajax({
+                url: "admin/settings/update-toggle", // Route xử lý AJAX
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tudongduyet: status
+                },
+                success: function (response) {
+                    alert(response.message); // Hiển thị thông báo thành công
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra!"); // Báo lỗi nếu AJAX thất bại
+                }
+            });
+        });
+    });
+</script>

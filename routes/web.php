@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{slug}/edit', [ProfileController::class, 'editBaidang'])->name('baidang.edit');
         Route::get('/showChangePass', [ProfileController::class, 'showChangePass'])->name('showChangePass');
         Route::post('/change-password', [ProfileController::class, 'changePass'])->name('changePass');
+        Route::delete('/delete/baidang/{id}', [PostController::class, 'destroy'])->name('baidang.destroy');
 
     });
 
@@ -75,6 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [AdminHomeController::class, 'index'])->name('homeAdmin');
             Route::resource('settings', AdminSettingController::class);
             Route::post('/settings/updateAll', [AdminSettingController::class, 'updateAll'])->name('updateSetting');
+            Route::post('/settings/update-toggle', [AdminSettingController::class, 'toggleAutoApprove'])->name('toggleAutoApprove');
         
         });
     });

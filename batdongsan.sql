@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th3 20, 2025 lúc 05:29 PM
+-- Thời gian đã tạo: Th3 28, 2025 lúc 05:44 PM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.2.23
 
@@ -54,7 +54,13 @@ INSERT INTO `addresses` (`id`, `street`, `ward_id`, `latitude`, `longitude`, `cr
 (16, NULL, 15, 21.32010000, 105.29156000, '2025-03-16 03:00:35', '2025-03-16 03:00:35'),
 (17, NULL, 4, 21.03587000, 105.82163000, '2025-03-17 10:38:20', '2025-03-17 10:38:20'),
 (18, NULL, 16, 21.02813000, 105.85358000, '2025-03-20 07:21:31', '2025-03-20 07:21:31'),
-(19, NULL, 17, 16.16667000, 107.83333000, '2025-03-20 07:48:47', '2025-03-20 07:48:47');
+(19, NULL, 17, 16.16667000, 107.83333000, '2025-03-20 07:48:47', '2025-03-20 07:48:47'),
+(20, NULL, 16, NULL, NULL, '2025-03-22 07:50:10', '2025-03-25 07:44:38'),
+(27, NULL, 16, NULL, NULL, '2025-03-25 07:22:46', '2025-03-25 08:14:11'),
+(28, NULL, 24, 21.02813000, 105.85358000, '2025-03-25 07:29:42', '2025-03-25 07:29:42'),
+(30, NULL, 24, NULL, NULL, '2025-03-25 07:55:07', '2025-03-28 08:42:25'),
+(35, NULL, 4, 21.03587000, 105.82163000, '2025-03-28 10:16:11', '2025-03-28 10:16:11'),
+(37, NULL, 30, 21.02744000, 105.79026000, '2025-03-28 10:36:54', '2025-03-28 10:36:54');
 
 -- --------------------------------------------------------
 
@@ -70,15 +76,15 @@ CREATE TABLE `baidangs` (
   `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `images` json DEFAULT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
-  `price` int DEFAULT NULL,
-  `dientich` decimal(10,0) NOT NULL,
+  `price` bigint DEFAULT NULL,
+  `dientich` decimal(10,0) DEFAULT NULL,
   `bedrooms` int NOT NULL DEFAULT '0',
   `bathrooms` int NOT NULL DEFAULT '0',
   `huongnha` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `noithat` tinyint(1) DEFAULT '0',
   `adminduyet` tinyint(1) DEFAULT '0',
   `status` enum('cosan','dathue','hethan') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cosan',
-  `mohinh` enum('thue','ban') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mohinh` enum('thue','ban','chuyennhuong','oghep') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `isVip` tinyint(1) NOT NULL DEFAULT '0',
@@ -97,10 +103,8 @@ CREATE TABLE `baidangs` (
 --
 
 INSERT INTO `baidangs` (`id`, `user_id`, `address_id`, `title`, `slug`, `images`, `description`, `price`, `dientich`, `bedrooms`, `bathrooms`, `huongnha`, `noithat`, `adminduyet`, `status`, `mohinh`, `created_at`, `updated_at`, `isVip`, `expired_at`, `age`, `huongbancong`, `thietbis`, `loainhadat_id`, `thumb`, `lienhe_id`, `baidangchitiet_id`) VALUES
-(11, 1, 17, 'ggfhfghgfh', 'ggfhfghgfh-11', '[\"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4745c.png\", \"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4bbad.png\", \"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4c44c.gif\", \"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4e6f4.jpg\", \"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c568bb.jpg\"]', '<p>Cho thu&ecirc; căn hộ Masteri Thảo Điền sống sang giữa l&ograve;ng Thảo Điền!<br />\r\n<br />\r\nBạn đang t&igrave;m kiếm căn hộ cho thu&ecirc; tại Thảo Điền, nơi hội tụ sự đẳng cấp, hiện đại v&agrave; tiện nghi? Masteri Thảo Điền ch&iacute;nh l&agrave; lựa chọn ho&agrave;n hảo cho bạn vị tr&iacute; v&agrave;ng, thiết kế tinh tế v&agrave; cộng đồng cư d&acirc;n văn minh.<br />\r\n<br />\r\nTổng quan dự &aacute;n Masteri Thảo Điền.<br />\r\n<br />\r\nVị tr&iacute;: Mặt tiền V&otilde; Nguy&ecirc;n Gi&aacute;p, phường Thảo Điền, TP. Thủ Đức.<br />\r\n<br />\r\nKết nối: 1 ph&uacute;t đến Ga Metro số 7 An Ph&uacute;, 10 ph&uacute;t đến trung t&acirc;m Quận 1.<br />\r\n<br />\r\nTiện &iacute;ch nội khu: Hồ bơi tr&agrave;n bờ, ph&ograve;ng gym cao cấp, c&ocirc;ng vi&ecirc;n xanh, khu BBQ, s&acirc;n chơi trẻ em, trung t&acirc;m thương mại Vincom Mega Mall ngay b&ecirc;n dưới.<br />\r\n<br />\r\nAn ninh: Bảo vệ 24/7, thẻ từ thang m&aacute;y, camera gi&aacute;m s&aacute;t to&agrave;n khu.<br />\r\n<br />\r\nCăn hộ cho thu&ecirc; đa dạng ph&ugrave; hợp mọi nhu cầu.<br />\r\n<br />\r\nHiện ch&uacute;ng t&ocirc;i c&oacute; nhiều căn hộ cho thu&ecirc; tại Masteri Thảo Điền với đầy đủ loại h&igrave;nh, đ&aacute;p ứng mọi nhu cầu sống v&agrave; ng&acirc;n s&aacute;ch:<br />\r\n<br />\r\nCăn hộ 1 ph&ograve;ng ngủ tiện nghi, ấm c&uacute;ng.<br />\r\n<br />\r\nDiện t&iacute;ch: 45, 55m.<br />\r\nGi&aacute; thu&ecirc;: Từ 15 triệu/th&aacute;ng.<br />\r\nPh&ugrave; hợp cho người độc th&acirc;n hoặc cặp đ&ocirc;i trẻ.<br />\r\n<br />\r\nCăn hộ 2 ph&ograve;ng ngủ Tho&aacute;ng m&aacute;t, view đẹp.<br />\r\n<br />\r\nDiện t&iacute;ch: 65m&sup2;, 70m, 72m&sup2;, 75m&sup2;, 77m&sup2;.<br />\r\nGi&aacute; thu&ecirc;: Từ 16 triệu/th&aacute;ng.<br />\r\nPh&ugrave; hợp gia đ&igrave;nh nhỏ hoặc người đi l&agrave;m cần kh&ocirc;ng gian ri&ecirc;ng.<br />\r\n<br />\r\nCăn hộ 3 ph&ograve;ng ngủ Rộng r&atilde;i, thiết kế tinh tế.<br />\r\n<br />\r\nDiện t&iacute;ch: 88m&sup2;, 90m&sup2;, 95m&sup2;, 100m.<br />\r\nGi&aacute; thu&ecirc;: Từ 23 triệu/th&aacute;ng.<br />\r\nL&yacute; tưởng cho gia đ&igrave;nh c&oacute; con nhỏ, sinh hoạt thoải m&aacute;i.<br />\r\n<br />\r\nDuplex th&ocirc;ng tầng.<br />\r\n<br />\r\nThiết kế 2 tầng hiện đại, nội thất cao cấp.<br />\r\nGi&aacute; thu&ecirc;: Từ 40 triệu/th&aacute;ng.<br />\r\nThể hiện phong c&aacute;ch sống kh&aacute;c biệt, ph&aacute; c&aacute;ch.<br />\r\n<br />\r\nPenthouse Tuyệt t&aacute;c tr&ecirc;n cao.<br />\r\n<br />\r\nDiện t&iacute;ch lớn, view to&agrave;n cảnh s&ocirc;ng S&agrave;i G&ograve;n.<br />\r\nNội thất sang trọng, ban c&ocirc;ng rộng, &aacute;nh s&aacute;ng tự nhi&ecirc;n.<br />\r\nGi&aacute; thu&ecirc;: Từ 50 triệu/th&aacute;ng.<br />\r\nD&agrave;nh cho kh&aacute;ch h&agrave;ng y&ecirc;u sự ri&ecirc;ng tư v&agrave; đẳng cấp.<br />\r\n<br />\r\nV&igrave; Sao N&ecirc;n Thu&ecirc; Căn Hộ Tại Masteri Thảo Điền?<br />\r\nVị tr&iacute; trung t&acirc;m Thảo Điền, nơi tập trung người nước ngo&agrave;i, chuy&ecirc;n gia cao cấp.<br />\r\nGi&aacute; thu&ecirc; hợp l&yacute;, linh hoạt theo nhu cầu.<br />\r\nChủ nh&agrave; th&acirc;n thiện, hỗ trợ nhiệt t&igrave;nh, hợp đồng r&otilde; r&agrave;ng.<br />\r\nNội thất đầy đủ, chỉ cần x&aacute;ch vali v&agrave;o ở.<br />\r\nMiễn ph&iacute; tư vấn Hỗ trợ xem nh&agrave; 24/7.<br />\r\nLi&ecirc;n Hệ Ngay Để Được Tư Vấn V&agrave; Xem Nh&agrave; Miễn Ph&iacute;.</p>', 170000, 100, 2, 2, 'Tây', 0, 1, 'cosan', 'thue', '2025-03-17 10:38:20', '2025-03-17 10:38:20', 1, NULL, '0 - 5 Năm', 'Tây', '[{\"icon\": null, \"name\": \"bếp\"}, {\"icon\": \"/temp/images/thietbi/dsfdsf.jpg\", \"name\": \"dsfdsf\"}]', 2, '/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4745c.png', 11, NULL),
-(14, 1, 17, 'ggfhfghgfh', 'ggfhfghgfh-12', '[\"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4745c.png\", \"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4bbad.png\", \"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4c44c.gif\", \"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4e6f4.jpg\", \"/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c568bb.jpg\"]', '<p>Cho thu&ecirc; căn hộ Masteri Thảo Điền sống sang giữa l&ograve;ng Thảo Điền!<br />\r\n<br />\r\nBạn đang t&igrave;m kiếm căn hộ cho thu&ecirc; tại Thảo Điền, nơi hội tụ sự đẳng cấp, hiện đại v&agrave; tiện nghi? Masteri Thảo Điền ch&iacute;nh l&agrave; lựa chọn ho&agrave;n hảo cho bạn vị tr&iacute; v&agrave;ng, thiết kế tinh tế v&agrave; cộng đồng cư d&acirc;n văn minh.<br />\r\n<br />\r\nTổng quan dự &aacute;n Masteri Thảo Điền.<br />\r\n<br />\r\nVị tr&iacute;: Mặt tiền V&otilde; Nguy&ecirc;n Gi&aacute;p, phường Thảo Điền, TP. Thủ Đức.<br />\r\n<br />\r\nKết nối: 1 ph&uacute;t đến Ga Metro số 7 An Ph&uacute;, 10 ph&uacute;t đến trung t&acirc;m Quận 1.<br />\r\n<br />\r\nTiện &iacute;ch nội khu: Hồ bơi tr&agrave;n bờ, ph&ograve;ng gym cao cấp, c&ocirc;ng vi&ecirc;n xanh, khu BBQ, s&acirc;n chơi trẻ em, trung t&acirc;m thương mại Vincom Mega Mall ngay b&ecirc;n dưới.<br />\r\n<br />\r\nAn ninh: Bảo vệ 24/7, thẻ từ thang m&aacute;y, camera gi&aacute;m s&aacute;t to&agrave;n khu.<br />\r\n<br />\r\nCăn hộ cho thu&ecirc; đa dạng ph&ugrave; hợp mọi nhu cầu.<br />\r\n<br />\r\nHiện ch&uacute;ng t&ocirc;i c&oacute; nhiều căn hộ cho thu&ecirc; tại Masteri Thảo Điền với đầy đủ loại h&igrave;nh, đ&aacute;p ứng mọi nhu cầu sống v&agrave; ng&acirc;n s&aacute;ch:<br />\r\n<br />\r\nCăn hộ 1 ph&ograve;ng ngủ tiện nghi, ấm c&uacute;ng.<br />\r\n<br />\r\nDiện t&iacute;ch: 45, 55m.<br />\r\nGi&aacute; thu&ecirc;: Từ 15 triệu/th&aacute;ng.<br />\r\nPh&ugrave; hợp cho người độc th&acirc;n hoặc cặp đ&ocirc;i trẻ.<br />\r\n<br />\r\nCăn hộ 2 ph&ograve;ng ngủ Tho&aacute;ng m&aacute;t, view đẹp.<br />\r\n<br />\r\nDiện t&iacute;ch: 65m&sup2;, 70m, 72m&sup2;, 75m&sup2;, 77m&sup2;.<br />\r\nGi&aacute; thu&ecirc;: Từ 16 triệu/th&aacute;ng.<br />\r\nPh&ugrave; hợp gia đ&igrave;nh nhỏ hoặc người đi l&agrave;m cần kh&ocirc;ng gian ri&ecirc;ng.<br />\r\n<br />\r\nCăn hộ 3 ph&ograve;ng ngủ Rộng r&atilde;i, thiết kế tinh tế.<br />\r\n<br />\r\nDiện t&iacute;ch: 88m&sup2;, 90m&sup2;, 95m&sup2;, 100m.<br />\r\nGi&aacute; thu&ecirc;: Từ 23 triệu/th&aacute;ng.<br />\r\nL&yacute; tưởng cho gia đ&igrave;nh c&oacute; con nhỏ, sinh hoạt thoải m&aacute;i.<br />\r\n<br />\r\nDuplex th&ocirc;ng tầng.<br />\r\n<br />\r\nThiết kế 2 tầng hiện đại, nội thất cao cấp.<br />\r\nGi&aacute; thu&ecirc;: Từ 40 triệu/th&aacute;ng.<br />\r\nThể hiện phong c&aacute;ch sống kh&aacute;c biệt, ph&aacute; c&aacute;ch.<br />\r\n<br />\r\nPenthouse Tuyệt t&aacute;c tr&ecirc;n cao.<br />\r\n<br />\r\nDiện t&iacute;ch lớn, view to&agrave;n cảnh s&ocirc;ng S&agrave;i G&ograve;n.<br />\r\nNội thất sang trọng, ban c&ocirc;ng rộng, &aacute;nh s&aacute;ng tự nhi&ecirc;n.<br />\r\nGi&aacute; thu&ecirc;: Từ 50 triệu/th&aacute;ng.<br />\r\nD&agrave;nh cho kh&aacute;ch h&agrave;ng y&ecirc;u sự ri&ecirc;ng tư v&agrave; đẳng cấp.<br />\r\n<br />\r\nV&igrave; Sao N&ecirc;n Thu&ecirc; Căn Hộ Tại Masteri Thảo Điền?<br />\r\nVị tr&iacute; trung t&acirc;m Thảo Điền, nơi tập trung người nước ngo&agrave;i, chuy&ecirc;n gia cao cấp.<br />\r\nGi&aacute; thu&ecirc; hợp l&yacute;, linh hoạt theo nhu cầu.<br />\r\nChủ nh&agrave; th&acirc;n thiện, hỗ trợ nhiệt t&igrave;nh, hợp đồng r&otilde; r&agrave;ng.<br />\r\nNội thất đầy đủ, chỉ cần x&aacute;ch vali v&agrave;o ở.<br />\r\nMiễn ph&iacute; tư vấn Hỗ trợ xem nh&agrave; 24/7.<br />\r\nLi&ecirc;n Hệ Ngay Để Được Tư Vấn V&agrave; Xem Nh&agrave; Miễn Ph&iacute;.</p>', 170000, 100, 2, 2, 'Tây', 0, 1, 'cosan', 'thue', '2025-03-17 10:38:20', '2025-03-17 10:38:20', 1, NULL, '0 - 5 Năm', 'Tây', '[{\"icon\": null, \"name\": \"bếp\"}, {\"icon\": \"/temp/images/thietbi/dsfdsf.jpg\", \"name\": \"dsfdsf\"}]', 2, '/temp/images/baidang/ggfhfghgfh-1742233100-67d85e0c4745c.png', 11, NULL),
-(15, 1, 18, 'sdfsdf', 'sdfsdf-15', '[\"/temp/images/baidang/sdfsdf-1742480491-67dc246b5f417.png\", \"/temp/images/baidang/sdfsdf-1742480491-67dc246b601b6.png\"]', '<p>Cho thu&ecirc; căn hộ Masteri Thảo Điền sống sang giữa l&ograve;ng Thảo Điền!<br />\r\n<br />\r\nBạn đang t&igrave;m kiếm căn hộ cho thu&ecirc; tại Thảo Điền, nơi hội tụ sự đẳng cấp, hiện đại v&agrave; tiện nghi? Masteri Thảo Điền ch&iacute;nh l&agrave; lựa chọn ho&agrave;n hảo cho bạn vị tr&iacute; v&agrave;ng, thiết kế tinh tế v&agrave; cộng đồng cư d&acirc;n văn minh.<br />\r\n<br />\r\nTổng quan dự &aacute;n Masteri Thảo Điền.<br />\r\n<br />\r\nVị tr&iacute;: Mặt tiền V&otilde; Nguy&ecirc;n Gi&aacute;p, phường Thảo Điền, TP. Thủ Đức.<br />\r\n<br />\r\nKết nối: 1 ph&uacute;t đến Ga Metro số 7 An Ph&uacute;, 10 ph&uacute;t đến trung t&acirc;m Quận 1.<br />\r\n<br />\r\nTiện &iacute;ch nội khu: Hồ bơi tr&agrave;n bờ, ph&ograve;ng gym cao cấp, c&ocirc;ng vi&ecirc;n xanh, khu BBQ, s&acirc;n chơi trẻ em, trung t&acirc;m thương mại Vincom Mega Mall ngay b&ecirc;n dưới.<br />\r\n<br />\r\nAn ninh: Bảo vệ 24/7, thẻ từ thang m&aacute;y, camera gi&aacute;m s&aacute;t to&agrave;n khu.<br />\r\n<br />\r\nCăn hộ cho thu&ecirc; đa dạng ph&ugrave; hợp mọi nhu cầu.<br />\r\n<br />\r\nHiện ch&uacute;ng t&ocirc;i c&oacute; nhiều căn hộ cho thu&ecirc; tại Masteri Thảo Điền với đầy đủ loại h&igrave;nh, đ&aacute;p ứng mọi nhu cầu sống v&agrave; ng&acirc;n s&aacute;ch:<br />\r\n<br />\r\nCăn hộ 1 ph&ograve;ng ngủ tiện nghi, ấm c&uacute;ng.<br />\r\n<br />\r\nDiện t&iacute;ch: 45, 55m.<br />\r\nGi&aacute; thu&ecirc;: Từ 15 triệu/th&aacute;ng.<br />\r\nPh&ugrave; hợp cho người độc th&acirc;n hoặc cặp đ&ocirc;i trẻ.<br />\r\n<br />\r\nCăn hộ 2 ph&ograve;ng ngủ Tho&aacute;ng m&aacute;t, view đẹp.<br />\r\n<br />\r\nDiện t&iacute;ch: 65m&sup2;, 70m, 72m&sup2;, 75m&sup2;, 77m&sup2;.<br />\r\nGi&aacute; thu&ecirc;: Từ 16 triệu/th&aacute;ng.<br />\r\nPh&ugrave; hợp gia đ&igrave;nh nhỏ hoặc người đi l&agrave;m cần kh&ocirc;ng gian ri&ecirc;ng.<br />\r\n<br />\r\nCăn hộ 3 ph&ograve;ng ngủ Rộng r&atilde;i, thiết kế tinh tế.<br />\r\n<br />\r\nDiện t&iacute;ch: 88m&sup2;, 90m&sup2;, 95m&sup2;, 100m.<br />\r\nGi&aacute; thu&ecirc;: Từ 23 triệu/th&aacute;ng.<br />\r\nL&yacute; tưởng cho gia đ&igrave;nh c&oacute; con nhỏ, sinh hoạt thoải m&aacute;i.<br />\r\n<br />\r\nDuplex th&ocirc;ng tầng.<br />\r\n<br />\r\nThiết kế 2 tầng hiện đại, nội thất cao cấp.<br />\r\nGi&aacute; thu&ecirc;: Từ 40 triệu/th&aacute;ng.<br />\r\nThể hiện phong c&aacute;ch sống kh&aacute;c biệt, ph&aacute; c&aacute;ch.<br />\r\n<br />\r\nPenthouse Tuyệt t&aacute;c tr&ecirc;n cao.<br />\r\n<br />\r\nDiện t&iacute;ch lớn, view to&agrave;n cảnh s&ocirc;ng S&agrave;i G&ograve;n.<br />\r\nNội thất sang trọng, ban c&ocirc;ng rộng, &aacute;nh s&aacute;ng tự nhi&ecirc;n.<br />\r\nGi&aacute; thu&ecirc;: Từ 50 triệu/th&aacute;ng.<br />\r\nD&agrave;nh cho kh&aacute;ch h&agrave;ng y&ecirc;u sự ri&ecirc;ng tư v&agrave; đẳng cấp.<br />\r\n<br />\r\nV&igrave; Sao N&ecirc;n Thu&ecirc; Căn Hộ Tại Masteri Thảo Điền?<br />\r\nVị tr&iacute; trung t&acirc;m Thảo Điền, nơi tập trung người nước ngo&agrave;i, chuy&ecirc;n gia cao cấp.<br />\r\nGi&aacute; thu&ecirc; hợp l&yacute;, linh hoạt theo nhu cầu.<br />\r\nChủ nh&agrave; th&acirc;n thiện, hỗ trợ nhiệt t&igrave;nh, hợp đồng r&otilde; r&agrave;ng.<br />\r\nNội thất đầy đủ, chỉ cần x&aacute;ch vali v&agrave;o ở.<br />\r\nMiễn ph&iacute; tư vấn Hỗ trợ xem nh&agrave; 24/7.<br />\r\nLi&ecirc;n Hệ Ngay Để Được Tư Vấn V&agrave; Xem Nh&agrave; Miễn Ph&iacute;.</p>', NULL, 100, 2, 2, 'Đông', 0, 1, 'cosan', 'thue', '2025-03-20 07:21:31', '2025-03-20 07:21:31', 0, NULL, '0 - 5 Năm', 'Đông', '[{\"icon\": null, \"name\": \"bếp\"}, {\"icon\": \"/temp/images/thietbi/dsfdsf.jpg\", \"name\": \"dsfdsf\"}]', 2, '/temp/images/baidang/sdfsdf-1742480491-67dc246b5f417.png', 12, NULL),
-(16, 1, 19, 'dsfsdfsdf', 'dsfsdfsdf-16', '[\"/temp/images/baidang/dsfsdfsdf-1742482127-67dc2acfb53bd.png\", \"/temp/images/baidang/dsfsdfsdf-1742482127-67dc2acfb61bf.png\"]', '<p>fdgdfgdf</p>', NULL, 100, 2, 2, 'Tây', 0, 1, 'cosan', 'thue', '2025-03-20 07:48:47', '2025-03-20 07:48:47', 0, NULL, '0 - 5 Năm', 'Nam', '[]', 2, '/temp/images/baidang/dsfsdfsdf-1742482127-67dc2acfb53bd.png', 13, 2);
+(21, 1, 35, 'Cho thuê nhà riêng 1 trệt, 1 lầu, 2 phòng ngủ, 3WC, Dtich sử dụng: 84m2, 12.5 tr/tháng', 'cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-21', '[\"/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bbb238.jpg\", \"/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bbb764.jpg\", \"/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bbbb49.jpg\", \"/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bbbf96.jpg\", \"/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bbc395.jpg\", \"/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bbc78e.jpg\", \"/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bc19e2.jpg\", \"/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bc1e45.jpg\", \"/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bc2334.jpg\"]', '<p>Cho thu&ecirc; nh&agrave; ri&ecirc;ng 1 trệt, 1 lầu, 2 ph&ograve;ng ngủ, 3WC, Dtich sử dụng: 90m&sup2;, 12.5 tr/th&aacute;ng:<br />\r\n- 5 ph&uacute;t ra trung t&acirc;m quận 1, thuận tiện cho đi l&agrave;m.<br />\r\n- gần đường Nguyễn Hữu Cảnh, gần ga metro Văn Th&aacute;nh, T&acirc;n Cảng, thuận tiện đi metro.<br />\r\n- gần chợ, gần trường học cấp 1, cấp 2<br />\r\n- khu vực cao r&aacute;o, ko ngập nước<br />\r\n- trước nh&agrave; c&oacute; s&acirc;n để xe chung rộng r&atilde;i, khu d&acirc;n cư y&ecirc;n tĩnh</p>', 12500000, 84, 3, 1, 'Đông Bắc', 0, 1, 'cosan', 'thue', '2025-03-28 10:16:11', '2025-03-28 10:16:11', 1, NULL, '0 - 5 Năm', 'Nam', '[{\"icon\": \"/temp/images/thietbi/dieu-hoa.jpg\", \"name\": \"Điều hòa\"}, {\"icon\": \"/temp/images/thietbi/tu-quan-ao.jpg\", \"name\": \"Tủ quần áo\"}, {\"icon\": \"/temp/images/thietbi/nong-lanh.jpg\", \"name\": \"Nóng lạnh\"}, {\"icon\": \"/temp/images/thietbi/tu-lanh.jpg\", \"name\": \"Tủ lạnh\"}, {\"icon\": \"/temp/images/thietbi/bep-ga.jpg\", \"name\": \"Bếp ga\"}, {\"icon\": \"/temp/images/thietbi/ti-vi.jpg\", \"name\": \"Ti vi\"}, {\"icon\": \"/temp/images/thietbi/may-giat.jpg\", \"name\": \"Máy giặt\"}, {\"icon\": \"/temp/images/thietbi/bao-ve.jpg\", \"name\": \"Bảo vệ\"}, {\"icon\": \"/temp/images/thietbi/bai-do-xe.jpg\", \"name\": \"Bãi đỗ xe\"}, {\"icon\": \"/temp/images/thietbi/internet.jpg\", \"name\": \"Internet\"}]', 5, '/temp/images/baidang/cho-thue-nha-rieng-1-tret-1-lau-2-phong-ngu-3wc-dtich-su-dung-84m2-125-trthang-1743182171-67e6d95bbb238.jpg', 27, 10),
+(22, 1, 37, 'Chính chủ căn View vườn hoa đường 15m dự án Himlam Boulevard Vị trí Vàng đẹp nhất Himlam Thường Tín', 'chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-22', '[\"/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183414-67e6de36f2b28.jpg\", \"/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183414-67e6de36f3120.jpg\", \"/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183414-67e6de36f357f.jpg\", \"/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183414-67e6de36f3ad7.jpg\", \"/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183414-67e6de36f4023.jpg\", \"/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183415-67e6de370028d.jpg\", \"/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183415-67e6de3700832.jpg\", \"/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183415-67e6de3700ca5.jpg\", \"/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183415-67e6de37011e8.jpg\"]', '<p>Ch&iacute;nh chủ căn View vườn hoa đường 15m dự &aacute;n Himlam Boulevard<br />\r\nDiện t&iacute;ch 75m mặt tiền 5m x&acirc;y 5 tầng<br />\r\nXung quanh khu h&agrave;nh ch&iacute;nh c&ocirc;ng thường t&iacute;n<br />\r\nC&aacute;ch 500m đến khu phố ấm thực<br />\r\nGần vườn hoa khu vui chơi giải tr&iacute;<br />\r\nC&aacute;ch 1km đến trường cấp 2.3 v&agrave; Trường gi&aacute;o dục Thường Xuy&ecirc;n<br />\r\nC&aacute;ch 500km Gần Trường cao đẳng truyền h&igrave;nh v&agrave; Bệnh viện đa khoa thường t&iacute;n<br />\r\nTiện &iacute;ch nhiều c&ocirc;ng năng<br />\r\nGi&aacute; Nhỉnh 13 tỷ<br />\r\nGiảm gi&aacute; s&acirc;u cho kh&aacute;ch thiện ch&iacute;</p>', 13000000000, 74, 7, 3, NULL, 0, 1, 'cosan', 'ban', '2025-03-28 10:36:55', '2025-03-28 10:36:55', 1, NULL, '0 - 5 Năm', NULL, '[{\"icon\": \"/temp/images/thietbi/dieu-hoa.jpg\", \"name\": \"Điều hòa\"}, {\"icon\": \"/temp/images/thietbi/tu-quan-ao.jpg\", \"name\": \"Tủ quần áo\"}, {\"icon\": \"/temp/images/thietbi/nong-lanh.jpg\", \"name\": \"Nóng lạnh\"}, {\"icon\": \"/temp/images/thietbi/tu-lanh.jpg\", \"name\": \"Tủ lạnh\"}, {\"icon\": \"/temp/images/thietbi/bep-ga.jpg\", \"name\": \"Bếp ga\"}, {\"icon\": \"/temp/images/thietbi/ti-vi.jpg\", \"name\": \"Ti vi\"}, {\"icon\": \"/temp/images/thietbi/may-giat.jpg\", \"name\": \"Máy giặt\"}, {\"icon\": \"/temp/images/thietbi/bao-ve.jpg\", \"name\": \"Bảo vệ\"}, {\"icon\": \"/temp/images/thietbi/bai-do-xe.jpg\", \"name\": \"Bãi đỗ xe\"}, {\"icon\": \"/temp/images/thietbi/internet.jpg\", \"name\": \"Internet\"}]', 7, '/temp/images/baidang/chinh-chu-can-view-vuon-hoa-duong-15m-du-an-himlam-boulevard-vi-tri-vang-dep-nhat-himlam-thuong-tin-1743183414-67e6de36f2b28.jpg', 29, 12);
 
 -- --------------------------------------------------------
 
@@ -126,7 +130,13 @@ CREATE TABLE `baidang_chitiets` (
 --
 
 INSERT INTO `baidang_chitiets` (`id`, `sophong`, `sotang`, `hoahong`, `thangdatcoc`, `thangtratruoc`, `hopdong`, `video`, `created_at`, `updated_at`) VALUES
-(2, 2, 2, 2, 2, 2, '1thang', NULL, '2025-03-20 07:48:47', '2025-03-20 07:48:47');
+(2, 2, 2, 2, 2, 2, '1thang', NULL, '2025-03-20 07:48:47', '2025-03-20 07:48:47'),
+(3, 2, 2, 2, 2, 2, '1thang', NULL, '2025-03-22 07:50:10', '2025-03-22 07:50:10'),
+(6, 2, 2, 2, 2, 2, '1thang', NULL, '2025-03-25 07:22:46', '2025-03-25 07:22:46'),
+(7, 2, 2, 2, 2, 2, '1thang', NULL, '2025-03-25 07:29:42', '2025-03-25 07:29:42'),
+(9, 2, 2, 2, 2, 2, '1thang', NULL, '2025-03-25 07:55:07', '2025-03-25 07:55:07'),
+(10, 4, 1, 12, 1, 1, '6thang', NULL, '2025-03-28 10:16:11', '2025-03-28 10:16:11'),
+(12, 6, 3, 12, 1, 1, NULL, NULL, '2025-03-28 10:36:54', '2025-03-28 10:36:54');
 
 -- --------------------------------------------------------
 
@@ -154,7 +164,13 @@ CREATE TABLE `baidang_lienhes` (
 INSERT INTO `baidang_lienhes` (`id`, `agent_name`, `phone`, `email`, `zalo_link`, `created_at`, `updated_at`, `loailienhe`, `facebook`, `telegram`) VALUES
 (11, 'Phan Duy Hào', '0855840100', 'maidg1302@gmail.com', 'https://zalo.me/0855840100', '2025-03-17 10:38:20', '2025-03-17 10:38:20', NULL, NULL, NULL),
 (12, 'Phan Duy Hào', '423425325', 'maidg1302@gmail.com', NULL, '2025-03-20 07:21:31', '2025-03-20 07:21:31', NULL, NULL, NULL),
-(13, 'Phan Duy Hào', '12313131445', 'maidg1302@gmail.com', NULL, '2025-03-20 07:48:47', '2025-03-20 07:48:47', NULL, NULL, NULL);
+(13, 'Phan Duy Hào', '12313131445', 'maidg1302@gmail.com', NULL, '2025-03-20 07:48:47', '2025-03-20 07:48:47', NULL, NULL, NULL),
+(14, 'Phan Duy Hào', '1231231244', 'maidg1302@gmail.com', NULL, '2025-03-22 07:50:10', '2025-03-22 07:50:10', NULL, NULL, NULL),
+(21, 'Phan Duy Hào', '1231231244', 'maidg1302@gmail.com', NULL, '2025-03-25 07:22:46', '2025-03-25 07:22:46', NULL, NULL, NULL),
+(22, 'Phan Duy Hào123', '3234324543', 'maidg1302@gmail.com', NULL, '2025-03-25 07:29:42', '2025-03-25 07:29:42', NULL, NULL, NULL),
+(24, 'Phan Duy Hào123', '3234324543', 'maidg1302@gmail.com', NULL, '2025-03-25 07:55:07', '2025-03-28 08:42:25', 'moigioi', NULL, NULL),
+(27, 'Phan Duy Hào123', '3234324543', 'maidg1302@gmail.com', NULL, '2025-03-28 10:16:11', '2025-03-28 10:16:11', 'moigioi', NULL, NULL),
+(29, 'Phan Duy Hào123', '3234324543', 'maidg1302@gmail.com', NULL, '2025-03-28 10:36:54', '2025-03-28 10:36:54', 'moigioi', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -210,7 +226,8 @@ INSERT INTO `districts` (`id`, `province_id`, `name`, `code`, `created_at`, `upd
 (13, 5, 'Quận Tây Hồ', '3', '2025-03-16 02:55:03', '2025-03-16 02:55:03'),
 (14, 10, 'Huyện Mường Nhé', '96', '2025-03-16 02:58:25', '2025-03-16 02:58:25'),
 (15, 11, 'Huyện Lâm Thao', '237', '2025-03-16 03:00:35', '2025-03-16 03:00:35'),
-(16, 10, 'Huyện Mường Chà', '97', '2025-03-20 07:48:47', '2025-03-20 07:48:47');
+(16, 10, 'Huyện Mường Chà', '97', '2025-03-20 07:48:47', '2025-03-20 07:48:47'),
+(26, 5, 'Quận Cầu Giấy', '5', '2025-03-28 10:36:54', '2025-03-28 10:36:54');
 
 -- --------------------------------------------------------
 
@@ -297,8 +314,13 @@ CREATE TABLE `loainhadats` (
 --
 
 INSERT INTO `loainhadats` (`id`, `title`, `slug`, `icon`, `created_at`, `updated_at`) VALUES
-(2, 'chung cư', 'chung-cu', '/temp/images/loainhadat/chung-cu.jpg', '2025-03-15 08:14:57', '2025-03-15 08:14:57'),
-(3, 'Nhà cấp 4', 'nha-cap-4', '/temp/images/loainhadat/nha-cap-4.jpg', '2025-03-15 08:15:10', '2025-03-15 08:15:10');
+(4, 'Căn hộ chung cư', 'can-ho-chung-cu', '/temp/images/loainhadat/can-ho-chung-cu.jpg', '2025-03-28 09:21:41', '2025-03-28 10:31:06'),
+(5, 'Nhà dân', 'nha-dan', '/temp/images/loainhadat/nha-dan.jpg', '2025-03-28 09:21:49', '2025-03-28 10:30:59'),
+(6, 'Phòng trọ', 'phong-tro', '/temp/images/loainhadat/phong-tro.jpg', '2025-03-28 09:21:58', '2025-03-28 10:30:52'),
+(7, 'Biệt thự', 'biet-thu', '/temp/images/loainhadat/biet-thu.jpg', '2025-03-28 09:22:09', '2025-03-28 10:30:42'),
+(8, 'Khách sạn', 'khach-san', '/temp/images/loainhadat/khach-san.jpg', '2025-03-28 09:22:19', '2025-03-28 10:30:36'),
+(9, 'Văn phòng công ty', 'van-phong-cong-ty', '/temp/images/loainhadat/van-phong-cong-ty.jpg', '2025-03-28 09:22:29', '2025-03-28 10:30:28'),
+(10, 'Mặt bằng kinh doanh', 'mat-bang-kinh-doanh', '/temp/images/loainhadat/mat-bang-kinh-doanh.jpg', '2025-03-28 09:22:40', '2025-03-28 10:30:12');
 
 -- --------------------------------------------------------
 
@@ -336,7 +358,27 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (17, '2025_03_17_172550_update_baidang6', 11),
 (18, '2025_03_17_173312_update_baidang_lienhe', 12),
 (19, '2025_03_19_165841_baidang_chitiet', 13),
-(20, '2025_03_20_143735_update_baidang7', 14);
+(20, '2025_03_20_143735_update_baidang7', 14),
+(21, '2025_03_22_083440_create_password_resets_table', 15);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('test@gmail.com', 'zfwo8ex7gNdUmWkORrxWK2t0NaUXS7VKOeRUARuzhTh0YptUtuLUQXFeTav3bOaV', '2025-03-22 01:36:54');
 
 -- --------------------------------------------------------
 
@@ -385,7 +427,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('FWNZzkKbE3MJdg42gXZMoHJpncPjULdnHUeM4FlX', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiNUZoSDRlNUxacU9FNlNFWHZUb1pDcDl3bkR0NUZ1ZVppdU1zekRLTyI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM4ODoiaHR0cDovL2JhdGRvbmdzYW4udGVzdDo4MDgwL3Bvc3RzL2xpc3QtY2hvLXRodWU/TG9uZ2l0dWRlPTEwNS44MjE2MyZhZGRyZXNzPSZhcmVhX21heD0mYXJlYV9taW49JmF1dGhvcj0mYmF0aHJvb21zPSZiZWRyb29tcz0mZGF0ZT0mZGlzdHJpY3RfbmFtZT1RdSVFMSVCQSVBRG4lMjBCYSUyMCVDNCU5MCVDMyVBQ25oJmRpc3RyaWN0cz0xJmh1b25nbmhhPSZsYXRpdHVkZT0yMS4wMzU4NyZsb2FpbmhhZGF0PSZwcmljZV9tYXg9JnByaWNlX21pbj0mcHJvdmluY2U9MSZwcm92aW5jZV9uYW1lPVRoJUMzJUEwbmglMjBwaCVFMSVCQiU5MSUyMEglQzMlQTAlMjBOJUUxJUJCJTk5aSZ3YXJkX25hbWU9UGglQzYlQjAlRTElQkIlOURuZyUyMFBoJUMzJUJBYyUyMFglQzMlQTEmd2FyZHM9MSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1742491409);
+('BXfUwE3B63avAGD8qXf0RyI2w2LueCSrBqQGEC42', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSHcySGZlWkZoY0tISGxYdTVOekZqQVF3N1JjaE8yeUFxUE02TkRBdiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly9iYXRkb25nc2FuLnRlc3Q6ODA4MCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1743183806);
 
 -- --------------------------------------------------------
 
@@ -406,10 +448,14 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
-(6, 'logo', 'temp/images/settings/logo.jpg', NULL, '2025-03-13 10:49:02'),
-(7, 'banner_image', NULL, NULL, NULL),
-(8, 'phone', NULL, NULL, NULL),
-(9, 'email', NULL, NULL, NULL);
+(6, 'logo', '/temp/images/settings/logo.jpg', NULL, '2025-03-21 20:24:39'),
+(7, 'banner', '/temp/images/settings/banner.jpg', NULL, '2025-03-22 02:19:12'),
+(8, 'phone', '0855840100', NULL, '2025-03-22 02:19:27'),
+(9, 'email', 'maidg1302@gmail.com', NULL, '2025-03-22 02:19:27'),
+(10, 'address', '63 Hoàng Phan Thái, xóm 17, xã Nghi Phú, thành phố Vinh, Nghệ An , Việt Nam', NULL, '2025-03-26 06:36:22'),
+(11, 'link_fb', 'https://www.facebook.com/haostbv.duy/', NULL, '2025-03-26 06:36:21'),
+(12, 'tudongduyet', '1', NULL, '2025-03-27 10:17:57'),
+(13, 'link_telegram', 'https://telegram', NULL, '2025-03-26 06:36:21');
 
 -- --------------------------------------------------------
 
@@ -430,8 +476,17 @@ CREATE TABLE `thietbis` (
 --
 
 INSERT INTO `thietbis` (`id`, `title`, `icon`, `created_at`, `updated_at`) VALUES
-(2, 'bếp', NULL, '2025-03-14 20:52:16', '2025-03-14 20:52:16'),
-(6, 'dsfdsf', '/temp/images/thietbi/dsfdsf.jpg', '2025-03-14 21:05:13', '2025-03-14 21:05:13');
+(7, 'Điều hòa', '/temp/images/thietbi/dieu-hoa.jpg', '2025-03-28 09:58:22', '2025-03-28 09:58:22'),
+(8, 'Tủ quần áo', '/temp/images/thietbi/tu-quan-ao.jpg', '2025-03-28 09:58:30', '2025-03-28 09:58:30'),
+(9, 'Nóng lạnh', '/temp/images/thietbi/nong-lanh.jpg', '2025-03-28 09:58:39', '2025-03-28 09:58:39'),
+(10, 'Tủ lạnh', '/temp/images/thietbi/tu-lanh.jpg', '2025-03-28 09:58:48', '2025-03-28 09:58:48'),
+(11, 'Bếp ga', '/temp/images/thietbi/bep-ga.jpg', '2025-03-28 09:58:58', '2025-03-28 09:58:58'),
+(12, 'Ti vi', '/temp/images/thietbi/ti-vi.jpg', '2025-03-28 09:59:05', '2025-03-28 09:59:05'),
+(13, 'Máy giặt', '/temp/images/thietbi/may-giat.jpg', '2025-03-28 09:59:13', '2025-03-28 09:59:13'),
+(14, 'Bảo vệ', '/temp/images/thietbi/bao-ve.jpg', '2025-03-28 09:59:50', '2025-03-28 09:59:50'),
+(15, 'Bãi đỗ xe', '/temp/images/thietbi/bai-do-xe.jpg', '2025-03-28 09:59:58', '2025-03-28 09:59:58'),
+(16, 'Internet', '/temp/images/thietbi/internet.jpg', '2025-03-28 10:00:06', '2025-03-28 10:00:06'),
+(17, 'Dọn vệ sinh', '/temp/images/thietbi/don-ve-sinh.jpg', '2025-03-28 10:00:15', '2025-03-28 10:00:15');
 
 -- --------------------------------------------------------
 
@@ -446,7 +501,7 @@ CREATE TABLE `users` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `role` enum('user','admin') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
+  `role` enum('user','admin','nhanvien') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -456,9 +511,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `avatar`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Phan Duy Hào', 'maidg1302@gmail.com', '$2y$12$kaTupFkiSEK5sVQZY4L8he40KNmULarJ78hYmQBCk/uRZ.1VgOKUm', NULL, '/temp/images/baidang/dfdsfs-1742116649-67d697291098f.jpg', 'admin', '2025-03-13 09:04:40', '2025-03-13 09:04:40'),
+(1, 'Phan Duy Hào123', 'maidg1302@gmail.com', '$2y$12$InxKnQfUAGDtEWLa4zpJfes5Tt06KTOBPg//fgElwG2/tHuGf7THK', '3234324543', '/temp/images/avatar/phan-duy-hao123.jpg', 'admin', '2025-03-13 09:04:40', '2025-03-27 08:33:46'),
 (2, 'test', 'test@gmail.com', '$2y$12$7pd9eX6b6g5Pf4Aet.JX7.iJC3oyewqq.Yv/z6HjDWqUbWxbJueO2', NULL, '/temp/images/baidang/dfdsfs-1742116649-67d697291098f.jpg', 'user', '2025-03-14 19:38:58', '2025-03-14 19:38:58'),
-(3, 'test23', 'test2@gmail.com', '$2y$12$BmnoOmH8oTqXzPhYd5qZ4OFKmGULSucRbjs2lzYb9DMb0GSKSmbLK', NULL, '/temp/images/baidang/dfdsfs-1742116649-67d697291098f.jpg', 'admin', '2025-03-14 19:52:32', '2025-03-14 19:55:01');
+(5, 'Phan Duy Hào', 'haomrvuii@gmail.com', '$2y$12$FslMm3eUZgWwanrD7w7YsOjuR3HG1m1Yuf.ja5IaoDr/lk7H1cXee', '0904848855', NULL, 'user', '2025-03-24 07:30:26', '2025-03-24 07:30:26'),
+(6, 'test2', 'test2@gmail.com', '$2y$12$InxKnQfUAGDtEWLa4zpJfes5Tt06KTOBPg//fgElwG2/tHuGf7THK', '0855840100', NULL, 'nhanvien', '2025-03-25 10:26:52', '2025-03-25 10:26:52');
 
 -- --------------------------------------------------------
 
@@ -491,7 +547,9 @@ INSERT INTO `wards` (`id`, `district_id`, `name`, `code`, `created_at`, `updated
 (14, 14, 'Xã Mường Nhé', '3160', '2025-03-16 02:58:25', '2025-03-16 02:58:25'),
 (15, 15, 'Xã Cao Xá', '8527', '2025-03-16 03:00:35', '2025-03-16 03:00:35'),
 (16, 10, 'Phường Đồng Xuân', '40', '2025-03-20 07:21:31', '2025-03-20 07:21:31'),
-(17, 16, 'Xã Mường Tùng', '3181', '2025-03-20 07:48:47', '2025-03-20 07:48:47');
+(17, 16, 'Xã Mường Tùng', '3181', '2025-03-20 07:48:47', '2025-03-20 07:48:47'),
+(24, 10, 'Phường Hàng Buồm', '46', '2025-03-25 07:29:42', '2025-03-25 07:29:42'),
+(30, 26, 'Phường Nghĩa Tân', '160', '2025-03-28 10:36:54', '2025-03-28 10:36:54');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -589,6 +647,12 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
 -- Chỉ mục cho bảng `provinces`
 --
 ALTER TABLE `provinces`
@@ -639,31 +703,31 @@ ALTER TABLE `wards`
 -- AUTO_INCREMENT cho bảng `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT cho bảng `baidangs`
 --
 ALTER TABLE `baidangs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT cho bảng `baidang_chitiets`
 --
 ALTER TABLE `baidang_chitiets`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `baidang_lienhes`
 --
 ALTER TABLE `baidang_lienhes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT cho bảng `districts`
 --
 ALTER TABLE `districts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT cho bảng `failed_jobs`
@@ -687,43 +751,43 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT cho bảng `loainhadats`
 --
 ALTER TABLE `loainhadats`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `provinces`
 --
 ALTER TABLE `provinces`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `thietbis`
 --
 ALTER TABLE `thietbis`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `wards`
 --
 ALTER TABLE `wards`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

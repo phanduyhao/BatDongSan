@@ -11,11 +11,11 @@
     
     <!-- ============================ Hero Banner  Start================================== -->
     <div class="featured_slick_gallery gray">
-        <div class="featured_slick_gallery-slide overflow-hidden" style="height: 40rem">
+        <div class="featured_slick_gallery-slide overflow-hidden">
             @foreach(json_decode($baidang->images, true) ?? [] as $image)
             <div class="featured_slick_padd">
                 <a href="{{ $image }}" class="mfp-gallery">
-                    <img src="{{ $image }}" class="img-fluid mx-auto" alt="" />
+                    <img src="{{ $image }}" class="img-detail mx-auto" alt="" />
                 </a>
             </div>
             @endforeach
@@ -34,21 +34,30 @@
                     
                         <div class="pbw-flex-1">
                             <div class="pbw-flex-thumb p-4">
-                                <img src="{{$baidang->thumb}}" width="150" class="img-fluid" alt="" />
+                                <img src="{{$baidang->thumb}}" class="img-fluid thumb-baidang" alt="" />
                             </div>
                         </div>
                         
                         <div class="pbw-flex">
                             <div class="prt-detail-title-desc">
                                 <div>
-                                    <span class="label text-light bg-success fs-6">
-                                        {{ $baidang->mohinh == 'thue' ? 'Cho thuê' : 'Bán' }}
+                                    <span class="label bg-light-success text-success prt-type me-2">
+                                        @php
+                                            $moHinhMap = [
+                                                'thue' => 'Cho thuê',
+                                                'ban' => 'Bán',
+                                                'chuyennhuong' => 'Chuyển nhượng',
+                                                'oghep' => 'Ở ghép'
+                                            ];
+                                        @endphp
+                                        
+                                    <span>{{ $moHinhMap[$baidang->mohinh] ?? 'Không xác định' }}</span>
                                     </span>
-                                    <span class="label text-light bg-info ms-3 fs-6">
+                                    <span class="label bg-light-purple text-purple property-cats">
                                         {{ $baidang->nhadat->title }}
                                     </span>
                                 </div>
-                                <h3 class="mt-3">{{$baidang->title}}</h3>
+                                <h3 class="mt-3 listing-name">{{$baidang->title}}</h3>
                                 <span>
                                     <img src="/temp/images/location.png" width="15px" alt="">
                                     {{ $baidang->address->name 
@@ -57,7 +66,7 @@
                                     }}
                                     
                                 </span>
-                                <h3 class="prt-price-fix text-primary">
+                                <h3 class="prt-price-fix text-primary mt-2">
                                     {{ $baidang->price ? number_format($baidang->price, 0, ',', '.') . ' VND' . ($baidang->mohinh == 'thue' ? '/tháng' : '') : 'Giá thỏa thuận' }} - {{$baidang->dientich}} m<sup>2</sup>
                                 </h3>
                                 <div class="list-fx-features">
@@ -117,23 +126,32 @@
                                     <li><strong>Hướng bán công:</strong>{{$baidang->huongbancong}}</li>
                                     @endif
                                     @if($baidang->baidangchitiet && $baidang->baidangchitiet->sophong)
-                                    <li><strong>Tổng số phòng:</strong>{{$baidang->baidangchitiet->sophong}}</li>
+                                    <li>
+                                        <strong>
+                                            {{ Str::contains($baidang->nhadat->title, 'chung cư') ? "Số phòng" : "Tổng số phòng:" }}
+                                        </strong>{{$baidang->baidangchitiet->sophong}}</li>
                                     @endif
                                     @if($baidang->baidangchitiet && $baidang->baidangchitiet->sotang)
-                                    <li><strong>Tổng số tầng:</strong>{{$baidang->baidangchitiet->sotang}}</li>
+                                    <li>
+                                        <strong>
+                                            {{ Str::contains($baidang->nhadat->title, 'chung cư') ? "Tầng" : "Số tầng:" }}
+                                        </strong>{{$baidang->baidangchitiet->sotang}}</li>
                                     @endif
                                     <li><strong>Phòng ngủ:</strong>{{$baidang->bedrooms}}</li>
                                     <li><strong>Phòng tắm:</strong>{{$baidang->bathrooms}}</li>
                                 </ul>
                             </div>
                         </div>
+                        
+                    </div>
+
+                    <div class="property_block_wrap style-2">
+                        
                         <div class="property_block_wrap_header">
-                            <a data-bs-toggle="collapse" data-parent="#features" data-bs-target="#clOne" aria-controls="clOne" href="javascript:void(0);" aria-expanded="false">
-                                <h4 class="property_block_title">Nội thất/ Dịch vụ</h4>
-                            </a>
+                            <a data-bs-toggle="collapse" data-parent="#dsrp" data-bs-target="#clTwo1" aria-controls="clTwo1" href="javascript:void(0);" aria-expanded="true"><h4 class="property_block_title">Nội thất/ Dịch vụ</h4></a>
                         </div>
-                        <div id="clOne" class="panel-collapse collapse show" aria-labelledby="clOne">
-                            <div class="block-body pb-0">
+                        <div id="clTwo1" class="panel-collapse collapse show">
+                            <div class="block-body">
                                 <ul class="deatil_features">
                                     @foreach(json_decode($baidang->thietbis, true) ?? [] as $thietbi)
                                         <li>
@@ -146,7 +164,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <!-- Single Block Wrap -->
                     <div class="property_block_wrap style-2">
                         
@@ -191,7 +208,7 @@
                                 <ul class="list-gallery-inline">
                                     @foreach(json_decode($baidang->images, true) ?? [] as $image)
                                     <li>
-                                        <a href="{{ $image }}" class="mfp-gallery"><img src="{{ $image }}" class="img-fluid mx-auto object-fit-contain " alt="" width="200px" style="height: 150px"/></a>
+                                        <a href="{{ $image }}" class="mfp-gallery"><img src="{{ $image }}" class="img-custom mx-auto  " alt=""/></a>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -204,43 +221,205 @@
                 
                 <!-- property Sidebar -->
                 <div class="col-lg-4 col-md-12 col-sm-12">
-                    
-                    <!-- Like And Share -->
-                    <div class="like_share_wrap b-0">
-                        <ul class="like_share_list">
-                            <li><a href="JavaScript:Void(0);" class="btn btn-likes" data-toggle="tooltip" data-original-title="Share"><i class="fas fa-share"></i>Share</a></li>
-                            <li><a href="JavaScript:Void(0);" class="btn btn-likes" data-toggle="tooltip" data-original-title="Save"><i class="fas fa-heart"></i>Save</a></li>
-                        </ul>
-                    </div>
-                    
+                    @if($baidang->user_id == Auth::user()->id)
                     <div class="details-sidebar">
-                    
                         <!-- Agent Detail -->
-                        <div class="sides-widget">
-                            <div class="sides-widget-header text-center py-2">
-                                <div class="agent-photo">
-                                    <img src="{{ optional($baidang->user)->avatar ?? '/temp/images/user.png' }}" width="70" height="70" alt="Avatar">
+                        <div class="sides-widget border rounded shadow-sm p-3 bg-white">
+                            <div class="sides-widget-header text-center py-0 rounded py-1">
+                                <div class="agent-photo ">
+                                    <img src="{{ optional($baidang->user)->avatar ?? '/temp/images/user.png' }}" 
+                                         width="100" height="100" 
+                                         class="rounded-circle border" 
+                                         alt="Avatar">
                                 </div>
-                                
-                                <div class="sides-widget-details mt-2">
-                                    <h4 class="text-truncate" style="max-width: 200px;">
-                                        <a href="#">{{ optional($baidang->lienhe)->agent_name ?? optional($baidang->user)->name }}</a>
-                                    </h4>
+                    
+                                <div class="sides-widget-details">
+                                    <h3 class="fw-bold text-primary">
+                                        <a href="#" class="text-decoration-none">{{ optional($baidang->lienhe)->agent_name ?? optional($baidang->user)->name }}</a>
+                                    </h3>
+                                    <p>{{ $baidang->lienhe->loailienhe == 'moigioi' ? 'Môi giới' : ($baidang->lienhe->loailienhe == 'daidien' ? 'Đại diện chủ nhà' : 'Chủ nhà') }}</p>
                                 </div>
                             </div>
-                            
-                            <div class="sides-widget-body text-center ">
-                                <!-- Nút chat qua Zalo -->
+                    
+                            <div class="sides-widget-body text-center">
+                                <!-- Email -->
+                                @if(optional($baidang->lienhe)->email)
+                                    <div class="contact-item my-2 p-2 bg-light rounded">
+                                        <strong>Email:</strong> 
+                                        <a href="mailto:{{ $baidang->lienhe->email }}" class="text-dark fw-semibold">
+                                            {{ $baidang->lienhe->email }}
+                                        </a>
+                                    </div>
+                                @endif
+                    
+                                <!-- Số điện thoại -->
+                                @if(optional($baidang->lienhe)->phone)
+                                    <div class="contact-item my-2 p-2 bg-light rounded">
+                                        <strong>Điện thoại:</strong> 
+                                        <a href="tel:{{ $baidang->lienhe->phone }}" class="text-dark fw-semibold">
+                                            {{ $baidang->lienhe->phone }}
+                                        </a>
+                                    </div>
+                                @endif
+                    
+                                <!-- Zalo -->
                                 @if(optional($baidang->lienhe)->zalo_link)
-                                    <a href="{{ $baidang->lienhe->zalo_link }}" class="btn btn-light d-flex align-items-center justify-content-center" target="_blank">
-                                        <img src="/temp/images/zalo.png" alt="Zalo" width="20" class="me-2"> Chat qua Zalo
+                                    <a href="{{ $baidang->lienhe->zalo_link }}" 
+                                       class="btn btn-outline-primary w-100 my-2 py-2 fw-bold d-flex align-items-center justify-content-center" 
+                                       target="_blank">
+                                        <img src="/temp/images/zalo.png" alt="Zalo" width="25" class="me-2"> Chat Zalo
                                     </a>
                                 @endif
-                        
+                    
+                                <!-- Facebook -->
+                                @if(optional($baidang->lienhe)->facebook)
+                                    <a href="{{ $baidang->lienhe->facebook }}" 
+                                       class="btn btn-outline-primary w-100 my-2 py-2 fw-bold d-flex align-items-center justify-content-center" 
+                                       target="_blank">
+                                        <img src="/temp/images/facebook.png" alt="Facebook" width="25" class="me-2"> Facebook
+                                    </a>
+                                @endif
+                    
+                                <!-- Telegram -->
+                                @if(optional($baidang->lienhe)->telegram)
+                                    <a href="{{ $baidang->lienhe->telegram }}" 
+                                       class="btn btn-outline-info w-100 my-2 py-2 fw-bold d-flex align-items-center justify-content-center" 
+                                       target="_blank">
+                                        <img src="/temp/images/telegram.png" alt="Telegram" width="25" class="me-2"> Telegram
+                                    </a>
+                                @endif
                             </div>
                         </div>
-                        
+                        <div class="sidebar-widgets">
+									
+                            <h4>Bài đăng Vip</h4>
+                            
+                            <div class="sidebar_featured_property">
+                                @foreach($baidanghots as $item)
+                                    <!-- List Sibar Property -->
+                                    <div class="sides_list_property">
+                                        <div class="sides_list_property_thumb">
+                                            <img src="{{$item->thumb}}" class="img-fluid" alt="">
+                                        </div>
+                                        <div class="sides_list_property_detail">
+                                            <h4 class="mb-2 listing-name"><a href="{{ route('baidangDetail', $item->slug) }}">{{$item->title}}</a></h4>
+                                            <span><i class="fa-solid fa-location-dot"></i>
+                                                {{ $item->address->name 
+                                                    ? $item->address->name . ', ' . $item->address->ward->name . ', ' . $item->address->ward->district->name . ', ' . $item->address->ward->district->province->name 
+                                                    : $item->address->ward->name . ', ' . $item->address->ward->district->name . ', ' . $item->address->ward->district->province->name 
+                                                }}
+                                            </span>
+                                            <div class="lists_property_price">
+                                                <div class="lists_property_types">
+                                                    <div class="property_types_vlix sale">{{$item->mohinh == 'thue' ? "Cho thuê" : "Bán"}}</div>
+                                                </div>
+                                                <div class="lists_property_price_value">
+                                                    @if($item->price == null)
+                                                    <h6>Giá thỏa thuận</h6>
+                                                @else
+                                                    <h6 class="listing-info-price-4 mb-0">
+                                                        {{ number_format($item->price , 0, ',', '.') }} đ
+                                                        @if($item->mohinh != 'ban') 
+                                                            / Tháng
+                                                        @endif
+                                                    </h6>
+                                                @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
+                    @else
+                    <div class="details-sidebar">
+                        <!-- Agent Detail -->
+                        <div class="sides-widget border rounded shadow-sm p-3 bg-white">
+                            <div class="sides-widget-header text-center py-0 rounded py-3 justify-content-center">
+                                <div class="sides-widget-details text-center p-0">
+                                    <h3 class="fw-bold text-primary m-0">
+                                        <a href="#" class="text-decoration-none">Thông tin liên hệ</a>
+                                    </h3>
+                                </div>
+                            </div>
+                    
+                            <div class="sides-widget-body text-center">
+                                <!-- Email -->
+                                @if(optional($baidang->lienhe)->email)
+                                    <div class="contact-item my-2 p-2 bg-light rounded">
+                                        <strong>Email:</strong> 
+                                        <a href="mailto:{{ $settings['email'] }}" class="text-dark fw-semibold">
+                                            {{ $settings['email'] }}
+                                        </a>
+                                    </div>
+                                @endif
+                    
+                                <!-- Số điện thoại -->
+                                <div class="contact-item my-2 p-2 bg-light rounded">
+                                    <strong>Điện thoại:</strong> 
+                                    <a href="tel:{{ $settings['phone'] }}" class="text-dark fw-semibold">
+                                        {{ $settings['phone'] }}
+                                    </a>
+                                </div>
+                                <!-- Facebook -->
+                                <a href="{{ $baidang->lienhe->facebook }}" 
+                                    class="btn btn-outline-primary w-100 my-2 py-2 fw-bold d-flex align-items-center justify-content-center" 
+                                    target="_blank">
+                                    <img src="/temp/images/facebook.png" alt="Facebook" width="25" class="me-2"> Facebook
+                                </a>
+                
+                                <!-- Telegram -->
+                                <a href="{{ $baidang->lienhe->telegram }}" 
+                                    class="btn btn-outline-info w-100 my-2 py-2 fw-bold d-flex align-items-center justify-content-center" 
+                                    target="_blank">
+                                    <img src="/temp/images/telegram.png" alt="Telegram" width="25" class="me-2"> Telegram
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sidebar-widgets">
+									
+                            <h4>Bài đăng Vip</h4>
+                            
+                            <div class="sidebar_featured_property">
+                                @foreach($baidanghots as $item)
+                                    <!-- List Sibar Property -->
+                                    <div class="sides_list_property">
+                                        <div class="sides_list_property_thumb">
+                                            <img src="{{$item->thumb}}" class="img-fluid" alt="">
+                                        </div>
+                                        <div class="sides_list_property_detail">
+                                            <h4 class="mb-2 listing-name"><a href="{{ route('baidangDetail', $item->slug) }}">{{$item->title}}</a></h4>
+                                            <span><i class="fa-solid fa-location-dot"></i>
+                                                {{ $item->address->name 
+                                                    ? $item->address->name . ', ' . $item->address->ward->name . ', ' . $item->address->ward->district->name . ', ' . $item->address->ward->district->province->name 
+                                                    : $item->address->ward->name . ', ' . $item->address->ward->district->name . ', ' . $item->address->ward->district->province->name 
+                                                }}
+                                            </span>
+                                            <div class="lists_property_price">
+                                                <div class="lists_property_types">
+                                                    <div class="property_types_vlix sale">{{$item->mohinh == 'thue' ? "Cho thuê" : "Bán"}}</div>
+                                                </div>
+                                                <div class="lists_property_price_value">
+                                                    @if($item->price == null)
+                                                    <h6>Giá thỏa thuận</h6>
+                                                @else
+                                                    <h6 class="listing-info-price-4 mb-0">
+                                                        {{ number_format($item->price , 0, ',', '.') }} đ
+                                                        @if($item->mohinh != 'ban') 
+                                                            / Tháng
+                                                        @endif
+                                                    </h6>
+                                                @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
                 
             </div>

@@ -5,7 +5,7 @@
 >
     <div class='app-brand demo'>
         <a href='/admin' class='app-brand-link'>
-            <img src='/temp//temp/assets/images/general/logo.png' width='200' alt='' />
+            <img src='{{$settings['logo']}}' width='200' alt='' />
         </a>
 
         <a
@@ -56,7 +56,7 @@
         <li class='menu-item'>
             <a href='{{route('thietbi.index')}}' class='menu-link'>
                 <i class='menu-icon tf-icons bx bx-category-alt'></i>
-                <div data-i18n='Layouts'>Quản lý thiết bị</div>
+                <div data-i18n='Layouts'>Quản lý thiết bị/ dịch vụ</div>
             </a>
         </li>
         <li class='menu-item'>

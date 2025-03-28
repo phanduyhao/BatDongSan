@@ -173,5 +173,23 @@
     align-items: center;
     justify-content: center;
 }
+.listing-name{
+    display: block; 
+    max-width: 100%; 
+    white-space: normal; 
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
+}
+
+.img-detail{
+    aspect-ratio: 1.5;
+    height: auto;
+    width: 100%;
+    object-fit: cover;
+}
 </style>

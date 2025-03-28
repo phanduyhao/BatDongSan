@@ -36,13 +36,18 @@ class AppServiceProvider extends ServiceProvider
             $view->with('loainhadats', $loainhadats)->with('settings',$settings);
         });
         View::composer('admin.sidebar', function ($view) {
+            $settings = Setting::pluck('value', 'key')->toArray();
             $count_baidang = 0; // Mặc định là 0 nếu người dùng chưa đăng nhập
             if (Auth::check()) { // Kiểm tra xem người dùng có đăng nhập hay không
                $count_baidang = Baidang::where('adminduyet',null)->count();
 
             // Truyền biến sang view
-            $view->with('count_baidang', $count_baidang);
+            $view->with('count_baidang', $count_baidang)->with('settings',$settings);
             }
+        });
+        View::composer('admin.main', function ($view) {
+            $settings = Setting::pluck('value', 'key')->toArray();
+            $view->with('settings',$settings);
         });
     }
 }

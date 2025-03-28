@@ -51,7 +51,7 @@
                                 <label>Loại Tài Sản</label>
                                 <select id="ptypes" class="form-control" name="loainhadat_id">
                                     @foreach($loainhadats as $loainhadat)
-                                        <option value="{{$loainhadat->id}}">{{$loainhadat->title}}</option>
+                                        <option value="{{$loainhadat->id}}" data-type="{{ strtolower($loainhadat->title) }}">{{$loainhadat->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -67,12 +67,12 @@
                             </div>
 
                             <div class="form-group col-md-3 col-sm-4 col-12">
-                                <label id="label-so-tang"><span class="text-danger">*</span> Số tầng</label>
+                                <label ><span class="text-danger">*</span> <span id="label-so-tang">Số tầng</span></label>
                                 <input type="number" class="form-control" id="input-so-tang" name="tongsotang" value="0">
                             </div>
                             
                             <div class="form-group col-md-3 col-sm-4 col-12">
-                                <label id="label-so-phong"><span class="text-danger">*</span> Tổng số phòng</label>
+                                <label ><span class="text-danger">*</span><span id="label-so-phong"> Tổng số phòng</span></label>
                                 <input type="number" class="form-control input-field" id="input-so-phong" name="tongsophong" value="0" data-require="Mời nhập tổng số phòng">
                             </div>
 
@@ -107,7 +107,7 @@
                                     <option value="">Chọn loại hợp đồng</option>
                                     <option value="1thang">1 - 5 tháng</option>
                                     <option value="6thang">6 tháng</option>
-                                    <option value="1 nam">1 năm</option>
+                                    <option value="1nam">1 năm</option>
                                 </select>
                             </div>
                         </div>
@@ -253,7 +253,7 @@
                             </div>
                             
                             <div class="form-group col-md-12">
-                                <label>Thiết bị / Nội thất</label>
+                                <label>Thiết bị / Dịch Vụ</label>
                                 <div class="o-features">
                                     <ul class="no-ul-list third-row">
                                         @foreach($thietbis as $thietbi)
@@ -295,8 +295,12 @@
                                 <input type="text" class="form-control input-field" name="phone_contact" value="{{Auth::user()->phone}}" data-require='Mời nhập số điện thoại'>
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Link zalo</label>
-                                <input type="text" class="form-control" name="link_zalo">
+                                <label>Loại liên hệ</label>
+                                <select id="loailienhe" class="form-control" name="loailienhe">
+                                    <option value="moigioi">Môi giới</option>
+                                    <option value="daiien">Đại diện chủ nhà</option>
+                                    <option value="chunha">Chủ nhà</option>
+                                </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Link Facebook</label>
@@ -319,6 +323,5 @@
         </div>
     </div>
 </section>
-<!-- ============================ Submit Property End ================================== -->
 
 @endsection

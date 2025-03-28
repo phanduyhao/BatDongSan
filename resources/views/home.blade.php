@@ -507,7 +507,7 @@
     
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-7 col-md-10 text-center">
-                <div class="sec-heading mss">
+                <div class="sec-heading mss mx-auto">
                     <h2>Những bài đăng mới nhất</h2>
                 </div>
             </div>
@@ -551,7 +551,16 @@
                                     <div class="d-flex align-items-center mb-1">
                                         <div>
                                             <span class="label bg-light-success text-success prt-type me-2">
-                                                {{ $item->mohinh == 'thue' ? 'Cho thuê' : 'Bán' }}
+                                                @php
+                                                    $moHinhMap = [
+                                                        'thue' => 'Cho thuê',
+                                                        'ban' => 'Bán',
+                                                        'chuyennhuong' => 'Chuyển nhượng',
+                                                        'oghep' => 'Ở ghép'
+                                                    ];
+                                                @endphp
+                                            
+                                                {{ $moHinhMap[$item->mohinh] ?? 'Không xác định' }}
                                             </span>
                                             <span class="label bg-light-purple text-purple property-cats">
                                                 {{ $item->nhadat->title }}
@@ -582,7 +591,7 @@
                                     @else
                                         <span class="listing-info-price text-primary fs-4 mb-0">
                                             {{ number_format($item->price , 0, ',', '.') }} đ
-                                            @if($item->mohinh != 'ban') 
+                                            @if($item->mohinh != 'ban' || $item->mohinh != 'chuyennhuong') 
                                                 / Tháng
                                             @endif
                                         </span>

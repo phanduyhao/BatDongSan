@@ -122,7 +122,7 @@ class AdminLoainhadatController extends Controller
             $fileName = Str::slug($title) . '.jpg'; // Tên ảnh theo Slug Title
             $icon->move(public_path('/temp/images/loainhadat/'), $fileName); // Di chuyển ảnh vào thư mục này
 
-            $Loainhadat->icon = $fileName; // Lưu tên file ảnh theo slug Title
+            $Loainhadat->icon = '/temp/images/loainhadat/'. $fileName;; // Lưu tên file ảnh theo slug Title
         }
         $Loainhadat->save();
     

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Ward;
 use App\Models\Address;
 use App\Models\Baidang;
+use App\Models\Setting;
 use App\Models\Thietbi;
 use App\Models\District;
 use App\Models\Province;
@@ -37,10 +38,10 @@ class PostController extends Controller
         $mohinh = $request->input('mohinh');
     
         // Query cơ bản
-        $query = Baidang::where('status','cosan');
+        $query = Baidang::where('status','cosan')->where('adminduyet',1);
     
         // Nếu có giá trị mô hình hợp lệ thì lọc theo mô hình
-        if (in_array($mohinh, ['ban', 'thue'])) {
+        if (in_array($mohinh, ['ban', 'thue', 'chuyennhuong', 'oghep'])) {
             $query->where('mohinh', $mohinh);
         }
     
@@ -52,7 +53,7 @@ class PostController extends Controller
         $listnhadats = Loainhadat::select('title', 'id', 'slug', 'icon')->get();
     
         // Xác định tiêu đề trang
-        $title = $mohinh === 'thue' ? 'Danh sách nhà đất cho thuê' : ($mohinh === 'ban' ? 'Danh sách nhà đất bán' : 'Danh sách nhà đất');
+        $title = $mohinh === 'thue' ? 'Danh sách nhà đất cho thuê' : ($mohinh === 'ban' ? 'Danh sách nhà đất bán' :  ($mohinh === 'chuyennhuong' ? 'Danh sách chuyển nhượng' :  ($mohinh === 'oghep' ? 'Danh sách ở ghép' : 'Danh sách nhà đất')));
     
         return view('posts.list_baidang', compact('list_baidangs', 'listnhadats', 'mohinh'), [
             'title' => $title
@@ -64,7 +65,7 @@ class PostController extends Controller
         $loaiNhadat = Loainhadat::where('slug', $slug)->firstOrFail();
     
         // Query cơ bản
-        $query = Baidang::where('loainhadat_id', $loaiNhadat->id);
+        $query = Baidang::where('loainhadat_id', $loaiNhadat->id)->where('adminduyet',1);
     
         // Gọi hàm applyFilters để áp dụng bộ lọc chung
         $query = $this->applyFilters($query, $request);
@@ -106,7 +107,9 @@ class PostController extends Controller
                 'errors' => $validator->errors(),
             ], 422); // Trả về lỗi 422 (Unprocessable Entity)
         }
-    
+
+        $tudongduyet = Setting::where('key', 'tudongduyet')->value('value');
+
         try {
             DB::beginTransaction(); // Bắt đầu transaction
     
@@ -156,6 +159,7 @@ class PostController extends Controller
             $contact->zalo_link = $request->link_zalo;
             $contact->facebook = $request->facebook;
             $contact->telegram = $request->telegram;
+            $contact->loailienhe = $request->loailienhe;
             $contact->save();
             
             // Xử lý thiết bị
@@ -211,7 +215,7 @@ class PostController extends Controller
             $baidang->baidangchitiet_id = $baidang_chitiet->id;
             $baidang->thietbis = json_encode($thietbis);
             $baidang->status = 1;
-            if(Auth::user()->role == 'admin'){
+            if(Auth::user()->role == 'admin' || $tudongduyet == 1){
                 $baidang->adminduyet = 1;
             }
             // Xử lý ảnh
@@ -272,10 +276,11 @@ class PostController extends Controller
     // Xem preview Bài đăng
     public function baidangDetail($slug)
     {
-
+        $settings = Setting::pluck('value', 'key')->toArray();
         // Tìm baidang theo slug
         $baidang = Baidang::where('slug', $slug)->first();
-
+        $baidanghots = Baidang::where('isVip', true)->take(4)->get();
+        
         $favourite = null;
         if (Auth::check()) {
             $favourite = Favourite::where('user_id', Auth::user()->id)->where('baidang_id',$baidang->id)->first();
@@ -292,7 +297,7 @@ class PostController extends Controller
 
         }
         $title = $baidang->title;
-        return view('posts.detail',compact('baidang','favourite','user'),[
+        return view('posts.detail',compact('baidang','favourite','user','settings','baidanghots'),[
             'title' => $title 
         ]);
     }
@@ -515,6 +520,7 @@ class PostController extends Controller
                 $contact->zalo_link = $request->link_zalo;
                 $contact->facebook = $request->facebook;
                 $contact->telegram = $request->telegram;
+                $contact->loailienhe = $request->loailienhe;
                 $contact->save();
             }
 
@@ -566,4 +572,16 @@ class PostController extends Controller
         }
     }
 
+    public function destroy(string $id)
+    {
+        $baidang = Baidang::find($id);
+
+        if (!$baidang) {
+            return response()->json([
+               'message' => 'Không tìm thấy bài đăng với ID: '. $id
+            ], 404); 
+        }
+        $baidang->delete();
+        return redirect()->back();
+    }
 }

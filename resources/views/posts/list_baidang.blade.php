@@ -325,7 +325,7 @@
                                     </div>
                                 </div>
                                 
-                            <div class="sides-widget-body text-center p-0 border-top ">   
+                            {{-- <div class="sides-widget-body text-center p-0 border-top ">   
                                 <div class="sides-widget-header text-center py-2 justify-content-between align-items-center bg-light">
                                    <div class="d-flex align-items-center">
                                         <div class="agent-photo">
@@ -340,7 +340,7 @@
                                    </div>
                                     
                                 </div>       
-                            </div>
+                            </div> --}}
                             </div>
                         </div>
                     @endforeach

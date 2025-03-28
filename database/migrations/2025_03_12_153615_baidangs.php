@@ -1,3 +1,4 @@
+<<<<<<< Tabnine <<<<<<<
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -8,6 +9,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * This function creates a new table called 'baidangs' in the database.//+
+     * The table includes various columns for storing information about real estate listings.//+
      */
     public function up(): void
     {
@@ -19,7 +22,7 @@ return new class extends Migration
             $table->string('slug')->unique()->nullable(); // Slug
             $table->json('images')->nullable(); // Ảnh
             $table->text('description')->nullable(); // Mô tả chi tiết
-            $table->integer('price')->nullable(); // Giá thuê (đơn vị: VNĐ)
+            $table->bigInteger('price')->nullable(); // Giá thuê (đơn vị: VNĐ)
             $table->decimal('dientich')->nullable(); // Diện tích (m²)
             $table->integer('bedrooms')->default(0); // Số phòng ngủ
             $table->integer('bathrooms')->default(0); // Số phòng vệ sinh
@@ -30,14 +33,16 @@ return new class extends Migration
             $table->enum('mohinh', ['thue', 'ban'])->nullable(); // Trạng thái bán / thuê
             $table->timestamps();
         });
-        
+
     }
 
     /**
      * Reverse the migrations.
+     * This function drops the 'baidangs' table from the database.//+
      */
     public function down(): void
     {
         Schema::dropIfExists('baidangs');
     }
 };
+>>>>>>> Tabnine >>>>>>>// {"conversationId":"00be6f39-e4dc-4c96-bd57-517ead345cf1","source":"instruct"}

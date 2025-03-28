@@ -35,7 +35,7 @@
                         
             <div class="row">
                 
-                <div class="col-lg-3 col-md-12">
+                <div class="col-lg-2 col-md-12">
                     
                     <div class="simple-sidebar sm-sidebar" id="filter_search">
                         
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-9 col-md-12">
+                <div class="col-lg-10 col-md-12">
                     <div class="container-fluid flex-grow-1 container-p-y">
                         <h3 class="fw-bold text-primary py-3 mb-4">{{ $title }}</h3>
                         <div>
@@ -96,6 +96,8 @@
                                                 <option value="">-- Chọn mô hình --</option>
                                                 <option value="thue" {{ request()->search_mohinh == 'thue' ? 'selected' : '' }}>Cho thuê</option>
                                                 <option value="ban" {{ request()->search_mohinh == 'ban' ? 'selected' : '' }}>Bán</option>
+                                                <option value="chuyennhuong" {{ request()->search_mohinh == 'chuyennhuong' ? 'selected' : '' }}>Chuyển nhượng</option>
+                                                <option value="oghep" {{ request()->search_mohinh == 'oghep' ? 'selected' : '' }}>Ở ghép</option>
                                             </select>
                                         </div>
                 
@@ -205,9 +207,10 @@
                                                     <td class="text-nowrap text-center">
                                                         <a href="{{ route('baidangDetail', $baidang->slug) }}" class="bg-info rounded border px-2 py-1 text-dark text-dark fw-bold" target="_blank">Chi tiết</a>
                                                         <a href="{{ route('baidang.edit', $baidang->slug) }}" class="bg-warning rounded border px-2 py-1 text-dark fw-bold mx-1">Chỉnh sửa</a>
-                                                        <form class="mt-2" action="{{route('baidang.cancel', $baidang->id)}}" method="post">
+                                                        <form class="mt-2 d-inline" action="{{ route('baidang.destroy', $baidang->id) }}" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?');">
                                                             @csrf
-                                                            <button class="bg-danger rounded text-white">Hủy</button>
+                                                            @method('DELETE') 
+                                                            <button type="submit" class="bg-danger rounded text-white px-2 py-1">Xóa</button>
                                                         </form>
                                                     </td>
                                                 </tr>

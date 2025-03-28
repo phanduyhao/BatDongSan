@@ -16,41 +16,33 @@
             
           </div>
         </div>		
-        <div class="col-lg-2 col-md-4">
+        <div class="col-lg-3 col-md-4">
           <div class="footer-widget">
-            <h4 class="widget-title">Navigations</h4>
+            <h4 class="widget-title">Mô hình</h4>
             <ul class="footer-menu">
-              <li><a href="about-us.html">About Us</a></li>
-              <li><a href="faq.html">FAQs Page</a></li>
-              <li><a href="checkout.html">Checkout</a></li>
-              <li><a href="contact.html">Contact</a></li>
-              <li><a href="blog.html">Blog</a></li>
+              <li><a href="{{ route('posts.list', ['mohinh' => 'ban']) }}">Bán</a></li>
+              <li><a href="{{ route('posts.list', ['mohinh' => 'chothue']) }}">Cho thuê</a></li>
+              <li class="{{ request('mohinh') == 'chuyennhuong' ? 'active' : '' }}">
+                <a href="{{ route('posts.list', ['mohinh' => 'chuyennhuong']) }}">Chuyển nhượng</a>
+              </li>
+              <li class="{{ request('mohinh') == 'oghep' ? 'active' : '' }}">
+                <a href="{{ route('posts.list', ['mohinh' => 'oghep']) }}">Ở ghép</a>
+            </li>
             </ul>
           </div>
         </div>
             
-        <div class="col-lg-2 col-md-4">
+        <div class="col-lg-3 col-md-4">
           <div class="footer-widget">
-            <h4 class="widget-title">The Highlights</h4>
+            <h4 class="widget-title">Loại nhà đất</h4>
             <ul class="footer-menu">
-              <li><a href="#">Apartment</a></li>
-              <li><a href="#">My Houses</a></li>
-              <li><a href="#">Restaurant</a></li>
-              <li><a href="#">Nightlife</a></li>
-              <li><a href="#">Villas</a></li>
-            </ul>
-          </div>
-        </div>
-        
-        <div class="col-lg-2 col-md-6">
-          <div class="footer-widget">
-            <h4 class="widget-title">My Account</h4>
-            <ul class="footer-menu">
-              <li><a href="#">My Profile</a></li>
-              <li><a href="#">My account</a></li>
-              <li><a href="#">My Property</a></li>
-              <li><a href="#">Favorites</a></li>
-              <li><a href="#">Cart</a></li>
+              @foreach($loainhadats as $loainhadat)
+              <li>  
+                <a href="{{ route('listByNhadat', ['slug' => $loainhadat->slug]) }}">
+                  {{ $loainhadat->title }}
+                </a>
+              </li>
+              @endforeach
             </ul>
           </div>
         </div>

@@ -48,6 +48,8 @@
                                 <select id="mohinh" class="form-control" name="mohinh">
                                     <option value="thue" {{ $baidang->mohinh == 'thue' ? 'selected' : '' }}>Cho Thuê</option>
                                     <option value="ban" {{ $baidang->mohinh == 'ban' ? 'selected' : '' }}>Bán</option>
+                                    <option value="chuyennhuong" {{ $baidang->mohinh == 'chuyennhuong' ? 'selected' : '' }}>Chuyển nhượng</option>
+                                    <option value="oghep" {{ $baidang->mohinh == 'oghep' ? 'selected' : '' }}>Ở ghép</option>
                                 </select>
                             </div>
                 
@@ -118,7 +120,7 @@
                                     <option value="">Chọn loại hợp đồng</option>
                                     <option value="1thang" {{ $baidang->baidangchitiet->hopdong == '1thang' ? 'selected' : '' }}>1 - 5 tháng</option>
                                     <option value="6thang" {{ $baidang->baidangchitiet->hopdong == '6thang' ? 'selected' : '' }}>6 tháng</option>
-                                    <option value="1 nam" {{ $baidang->baidangchitiet->hopdong == '1 nam' ? 'selected' : '' }}>1 năm</option>
+                                    <option value="1nam" {{ $baidang->baidangchitiet->hopdong == '1 nam' ? 'selected' : '' }}>1 năm</option>
                                 </select>
                             </div>
                         </div>
@@ -258,7 +260,7 @@
                             @endphp
                             
                             <div class="form-group col-md-12">
-                                <label>Thiết bị / Nội thất</label>
+                                <label>Thiết bị / Dịch Vụ</label>
                                 <div class="o-features">
                                     <ul class="no-ul-list third-row">
                                         @foreach($thietbis as $thietbi)
@@ -310,9 +312,12 @@
                                 <input type="text" class="form-control input-field" name="phone_contact" value="{{$baidang->lienhe->phone}}" data-require='Mời nhập số điện thoại'>
                             </div>
                             <div class="form-group col-md-4">
-                                <label>Link zalo</label>
-                                <input type="text" class="form-control" name="link_zalo" value="{{$baidang->lienhe->zalo_link}}">
-                            </div>
+                                <label>Loại liên hệ</label>
+                                <select id="loailienhe" class="form-control" name="loailienhe">
+                                    <option value="moigioi" {{ $baidang->lienhe->loailienhe == 'moigioi' ? 'selected' : '' }}>Môi giới</option>
+                                    <option value="daidien" {{ $baidang->lienhe->loailienhe == 'daidien' ? 'selected' : '' }}>Đại diện chủ nhà</option>
+                                    <option value="chunha" {{ $baidang->lienhe->loailienhe == 'chunha' ? 'selected' : '' }}>Chủ nhà</option>
+                                </select>                            </div>
                             <div class="form-group col-md-4">
                                 <label>Link Facebook</label>
                                 <input type="text" class="form-control" name="facebook" value="{{$baidang->lienhe->facebook}}">

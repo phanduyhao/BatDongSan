@@ -67,43 +67,41 @@ class AdminSettingController extends Controller
      * Update the specified resource in storage.
      */
 
-public function updateAll(Request $request)
-{
-    // Danh sách các key cần cập nhật
-    $keys = ['logo', 'banner', 'phone', 'email'];
+    public function updateAll(Request $request)
+    {
+        // Danh sách các key cần cập nhật
+        $keys = ['logo', 'banner', 'phone', 'email', 'link_fb', 'address'];
 
-    foreach ($keys as $key) {
-        $setting = Setting::where('key', $key)->first();
+        foreach ($keys as $key) {
+            $setting = Setting::where('key', $key)->first();
 
-        if (!$setting) {
-            continue; // Bỏ qua nếu không tìm thấy setting
+            if (!$setting) {
+                continue; // Bỏ qua nếu không tìm thấy setting
+            }
+
+            // Xử lý upload ảnh cho logo & banner
+            if (in_array($key, ['logo', 'banner'])) {
+                if ($request->hasFile($key)) {
+                    $file = $request->file($key);
+                    $fileName = $key . '.jpg'; // Tạo tên file theo key
+                    $destinationPath = public_path('/temp/images/settings/');
+
+                    // Di chuyển file vào thư mục
+                    $file->move($destinationPath, $fileName);
+
+                    // Lưu đường dẫn vào DB
+                    $setting->update(['value' => '/temp/images/settings/' . $fileName]);
+                }
+            } else {
+                // Cập nhật dữ liệu text (số điện thoại, email)
+                if ($request->filled($key)) {
+                    $setting->update(['value' => $request->input($key)]);
+                }
+            }
         }
 
-        // Xử lý upload ảnh cho logo & banner
-        if (in_array($key, ['logo', 'banner'])) {
-            if ($request->hasFile($key)) {
-                $file = $request->file($key);
-                $fileName = $key . '.jpg'; // Tạo tên file theo key
-                $destinationPath = public_path('/temp/images/settings/');
-
-                // Di chuyển file vào thư mục
-                $file->move($destinationPath, $fileName);
-
-                // Lưu đường dẫn vào DB
-                $setting->update(['value' => '/temp/images/settings/' . $fileName]);
-            }
-        } else {
-            // Cập nhật dữ liệu text (số điện thoại, email)
-            if ($request->filled($key)) {
-                $setting->update(['value' => $request->input($key)]);
-            }
-        }
+        return redirect()->back()->with('success', 'Cập nhật tất cả thành công!');
     }
-
-    return redirect()->back()->with('success', 'Cập nhật tất cả thành công!');
-}
-
-    
 
     /**
      * Remove the specified resource from storage.
@@ -112,4 +110,28 @@ public function updateAll(Request $request)
     {
         //
     }
+
+    public function toggleAutoApprove(Request $request)
+{
+    // Kiểm tra request có hợp lệ không
+    $request->validate([
+        'tudongduyet' => 'required|boolean', // Chỉ chấp nhận 0 hoặc 1
+    ]);
+
+    // Lấy setting từ database
+    $setting = Setting::where('key', 'tudongduyet')->first();
+
+    if ($setting) {
+        $setting->update(['value' => $request->tudongduyet]);
+    } else {
+        Setting::create(['key' => 'tudongduyet', 'value' => $request->tudongduyet]);
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Cập nhật thành công!',
+        'status' => $request->tudongduyet
+    ]);
+}
+
 }

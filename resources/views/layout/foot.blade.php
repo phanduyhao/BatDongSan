@@ -147,6 +147,33 @@ $(document).on("submit", "#form-change-password", function (e) {
         }
     });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    var ptypes = document.getElementById('ptypes');
+    var soTangLabel = document.getElementById('label-so-tang');
+    var soPhongLabel = document.getElementById('label-so-phong');
+
+    function updateLabels() {
+        var selectedOption = ptypes.options[ptypes.selectedIndex];
+        var mohinh = selectedOption.getAttribute('data-type') || ''; // Tránh lỗi nếu data-type không tồn tại
+
+        console.log('Loại nhà đất:', mohinh); // Debug xem giá trị có đúng không
+
+        if (mohinh.toLowerCase().includes('chung cư')) { 
+            soTangLabel.textContent = 'Tầng';
+            soPhongLabel.textContent = 'Số phòng';
+        } else {
+            soTangLabel.textContent = 'Số tầng';
+            soPhongLabel.textContent = 'Tổng số phòng';
+        }
+    }
+
+    // Gọi khi trang load xong để cập nhật giá trị ban đầu
+    updateLabels();
+
+    // Gán sự kiện change để thay đổi khi người dùng chọn giá trị mới
+    ptypes.addEventListener('change', updateLabels);
+});
+
 
 </script>
 

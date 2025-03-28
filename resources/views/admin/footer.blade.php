@@ -31,6 +31,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
+<script>
+     $('#autoApproveSwitch').change(function () {
+            let status = $(this).prop('checked') ? 1 : 0; // Lấy trạng thái (1 nếu bật, 0 nếu tắt)
 
+            $.ajax({
+                url: "settings/update-toggle", // Route xử lý AJAX
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tudongduyet: status
+                },
+                success: function (response) {
+                    alert(response.message); // Hiển thị thông báo thành công
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra!"); // Báo lỗi nếu AJAX thất bại
+                }
+            });
+        });
+</script>
 
 

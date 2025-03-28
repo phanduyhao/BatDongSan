@@ -8,19 +8,39 @@
         <div class="nav-toggle"></div>
         <div class="mobile_nav">
           <ul>
-            <li>
-              <a href="JavaScript:Void(0);" data-bs-toggle="modal" data-bs-target="#login" class="text-muted">
-                <span class="svg-icon svg-icon-2hx">
-                  <svg width="35" height="35" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path opacity="0.3" d="M16.5 9C16.5 13.125 13.125 16.5 9 16.5C4.875 16.5 1.5 13.125 1.5 9C1.5 4.875 4.875 1.5 9 1.5C13.125 1.5 16.5 4.875 16.5 9Z" fill="currentColor"/>
-                    <path d="M9 16.5C10.95 16.5 12.75 15.75 14.025 14.55C13.425 12.675 11.4 11.25 9 11.25C6.6 11.25 4.57499 12.675 3.97499 14.55C5.24999 15.75 7.05 16.5 9 16.5Z" fill="currentColor"/>
-                    <rect x="7" y="6" width="4" height="4" rx="2" fill="currentColor"/>
-                  </svg>
-                </span>
-              </a>
+            <li class="mobile-profile-dropdown position-relative">
+              @guest
+                <a href="{{ route('showLogin') }}" class="text-muted">
+                  <span class="svg-icon svg-icon-2hx">
+                    <svg width="35" height="35" viewBox="0 0 18 18" fill="none">
+                      <path opacity="0.3" d="M16.5 9C16.5 13.125 13.125 16.5 9 16.5C4.875 16.5 1.5 13.125 1.5 9C1.5 4.875 4.875 1.5 9 1.5C13.125 1.5 16.5 4.875 16.5 9Z" fill="currentColor"/>
+                      <path d="M9 16.5C10.95 16.5 12.75 15.75 14.025 14.55C13.425 12.675 11.4 11.25 9 11.25C6.6 11.25 4.57499 12.675 3.97499 14.55C5.24999 15.75 7.05 16.5 9 16.5Z" fill="currentColor"/>
+                      <rect x="7" y="6" width="4" height="4" rx="2" fill="currentColor"/>
+                    </svg>
+                  </span>
+                </a>
+              @else
+                <a href="javascript:void(0);" class="text-muted avatar-toggle">
+                  <span class="svg-icon svg-icon-2hx">
+                    <img class="rounded-circle" src="{{ Auth::user()->avatar }}" width="30" height="30" alt="">
+                  </span>
+                </a>
+                <ul class="nav-dropdown nav-submenu mobile-profile-menu bg-white position-absolute flex-column border rounded-3 align-items-start" style="top: 3rem; left: -4rem;min-width:fit-content">
+                  @if(Auth::check() && Auth::user()->role !== 'user')
+                    <li><a class="ps-2" href="/admin">Quản trị</a></li>
+                  @endif
+                  <li><a class="ps-2" href="/profile">Trang cá nhân</a></li>
+                  <li>
+                    <form action="{{ route('logout') }}" method="post" class="logout">
+                      @csrf
+                      <button type="submit" class="dropdown-item ps-2">Đăng xuất</button>
+                    </form>
+                  </li>
+                </ul>
+              @endguest
             </li>
             <li>
-              <a href="submit-property.html" class="text-primary">
+              <a href="{{ route('postPage') }}" class="text-primary">
                 <span class="svg-icon svg-icon-2hx">
                   <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"/>
@@ -30,19 +50,9 @@
                 </span>	
               </a>
             </li>
-            <li>
-              <a href="#" class="text-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                <span class="svg-icon svg-icon-2hx">
-                  <svg width="22" height="22" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect y="6" width="16" height="3" rx="1.5" fill="currentColor"/>
-                    <rect opacity="0.3" y="12" width="8" height="3" rx="1.5" fill="currentColor"/>
-                    <rect opacity="0.3" width="12" height="3" rx="1.5" fill="currentColor"/>
-                  </svg>
-                </span>
-              </a>
-            </li>
           </ul>
         </div>
+        
       </div>
       <div class="nav-menus-wrapper" style="transition-property: none;">
         <ul class="nav-menu">
@@ -59,6 +69,12 @@
                     <li class="{{ request('mohinh') == 'thue' ? 'active' : '' }}">
                         <a href="{{ route('posts.list', ['mohinh' => 'thue']) }}">Cho thuê</a>
                     </li>
+                    <li class="{{ request('mohinh') == 'chuyennhuong' ? 'active' : '' }}">
+                      <a href="{{ route('posts.list', ['mohinh' => 'chuyennhuong']) }}">Chuyển nhượng</a>
+                    </li>
+                    <li class="{{ request('mohinh') == 'oghep' ? 'active' : '' }}">
+                      <a href="{{ route('posts.list', ['mohinh' => 'oghep']) }}">Ở ghép</a>
+                  </li>
                 </ul>
             </li>
     
@@ -106,10 +122,10 @@
                         {{ Auth::user()->name }}
                     </a>
                     <ul class="nav-dropdown nav-submenu py-0">
-                        @if(Auth::user()->role!='user')
-                          <li>
-                            <a href="/admin">Quản trị</a>
-                          </li>
+                      @if(Auth::check() && Auth::user()->role !== 'user')
+                        <li>
+                          <a href="/admin">Quản trị</a>
+                        </li>
                         @endif
                         <li>
                           <a href="/profile">Trang cá nhân</a>
@@ -142,3 +158,13 @@
 </div>
 <!-- End Navigation -->
 <div class="clearfix"></div>
+<script>
+  
+  function openFilterSearch() {
+				document.getElementById("filter_search").style.display = "block";
+			}
+			function closeFilterSearch() {
+				document.getElementById("filter_search").style.display = "none";
+			}
+		
+</script>

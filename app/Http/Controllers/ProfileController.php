@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Validator;
 class ProfileController extends Controller
 {
     public function index(){
-        $tongBaidang = Baidang::count();
-        $tongBaidangDuyet  = Baidang::where('adminduyet', true)->count();
-        $tongBaidangHuy  = Baidang::where('adminduyet', false)->count();
-        $tongBaidangChoduyet  = Baidang::where('adminduyet', null)->count();
+        $tongBaidang = Baidang::where('user_id',Auth::user()->id)->count();
+        $tongBaidangDuyet  = Baidang::where('adminduyet', true)->where('user_id',Auth::user()->id)->count();
+        $tongBaidangHuy  = Baidang::where('adminduyet', false)->where('user_id',Auth::user()->id)->count();
+        $tongBaidangChoduyet  = Baidang::where('adminduyet', null)->where('user_id',Auth::user()->id)->count();
         $user = Auth::user();
         return view('profile.index',compact('tongBaidang','tongBaidangDuyet','tongBaidangChoduyet','tongBaidangHuy','user'),[
             'title' => 'Thông tin cá nhân'

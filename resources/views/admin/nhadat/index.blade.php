@@ -156,7 +156,7 @@
                                 <h1 class="modal-title fs-5 text-white text-danger" id="createLoainhadatLabel"> </h1>
                             </div>
                             <div class="card-body">
-                                <form method='loainhadat' action='' enctype="multipart/form-data" class="editLoainhadatForm form-edit" id="form_loainhadatAdmin_update">
+                                <form method='post' action='' enctype="multipart/form-data" class="editLoainhadatForm form-edit" id="form_loainhadatAdmin_update">
                                     @method('PATCH')
                                     @csrf
                                     

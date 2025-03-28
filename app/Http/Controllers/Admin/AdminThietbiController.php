@@ -120,7 +120,7 @@ class AdminThietbiController extends Controller
             $fileName = Str::slug($title) . '.jpg'; // Tên ảnh theo Slug Title
             $icon->move(public_path('/temp/images/thietbi/'), $fileName); // Di chuyển ảnh vào thư mục này
 
-            $Thietbi->icon = $fileName; // Lưu tên file ảnh theo slug Title
+            $Thietbi->icon = '/temp/images/thietbi/'. $fileName; // Lưu tên file ảnh theo slug Title
         }
         $Thietbi->save();
     

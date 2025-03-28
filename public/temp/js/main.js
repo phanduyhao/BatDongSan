@@ -3,9 +3,9 @@ function updatePricePlaceholder() {
     var mohinh = $('#mohinh').val();
     var priceInput = $('#price');
 
-    if (mohinh === 'thue') {
+    if (mohinh === 'thue' || mohinh === 'oghep') {
         priceInput.attr('placeholder', 'Tổng số tiền / tháng');
-    } else if (mohinh === 'ban') {
+    } else {
         priceInput.attr('placeholder', 'Tổng số tiền');
     }
 }
@@ -183,9 +183,9 @@ function updatePricePlaceholder() {
     var mohinh = $('#mohinh').val();
     var priceInput = $('#price');
 
-    if (mohinh === 'thue') {
+    if (mohinh === 'thue' || mohinh === 'oghep') {
         priceInput.attr('placeholder', 'Tổng số tiền / tháng');
-    } else if (mohinh === 'ban') {
+    } else {
         priceInput.attr('placeholder', 'Tổng số tiền');
     }
 }
@@ -252,6 +252,7 @@ $(document).ready(function () {
     $imageInput.on("change", function () {
         let files = this.files;
         handleFiles(files);
+        $imageInput.val(""); // 🔥 Reset input file để lần sau có thể chọn lại cùng ảnh
     });
 
     function handleFiles(files) {
@@ -267,8 +268,7 @@ $(document).ready(function () {
             reader.onload = function (e) {
                 let imgElement = $("<div class='image-preview'>")
                     .append(
-                        $("<img>")
-                            .attr("src", e.target.result)
+                        $("<img>").attr("src", e.target.result)
                     )
                     .append(
                         $("<span class='remove-btn'>&times;</span>").on(
@@ -278,6 +278,11 @@ $(document).ready(function () {
                                     $(".remove-btn").index(this);
                                 uploadedFiles.splice(indexToRemove, 1); // Xóa file khỏi mảng
                                 $(this).parent().remove(); // Xóa ảnh xem trước
+
+                                // 🔥 Reset input file nếu không còn ảnh nào
+                                if (uploadedFiles.length === 0) {
+                                    $imageInput.val("");
+                                }
                             }
                         )
                     );
@@ -286,7 +291,6 @@ $(document).ready(function () {
             reader.readAsDataURL(file);
         });
     }
-
     // Upload video
     // upload video 
 const $videoInput = $("#videoInput");

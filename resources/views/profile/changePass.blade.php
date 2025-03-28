@@ -35,7 +35,7 @@
                         
             <div class="row">
                 
-                <div class="col-lg-3 col-md-12">
+                <div class="col-lg-2 col-md-12">
                     
                     <div class="simple-sidebar sm-sidebar" id="filter_search">
                         
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-9 col-md-12">
+                <div class="col-lg-10 col-md-12">
                     <div class="dashboard-wraper">
                     
                         <!-- Basic Information -->

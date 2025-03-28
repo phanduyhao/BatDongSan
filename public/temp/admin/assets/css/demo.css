@@ -198,3 +198,7 @@
   overflow: hidden; /* Ẩn phần bị tràn */
   text-overflow: ellipsis; /
 }
+
+.title-baidang{
+  max-width: 200px;
+}

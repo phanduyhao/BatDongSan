@@ -11514,7 +11514,7 @@ th.next.available, .prev.available {
 		width: calc(100% - 80px);
 	}
 	.sec-heading.mss h2 {
-		font-size: 16px;
+		font-size: 22px;
 		line-height:1.2;
 		margin: 0;
 	}
@@ -11644,3 +11644,8 @@ th.next.available, .prev.available {
 	color:#4caf50;
 }
 
+@media screen and (min-width: 1024px) {
+    .thumb-baidang {
+        width: 250px;
+    }
+}

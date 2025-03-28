@@ -77,6 +77,7 @@
                         <tr>
                             <th>STT</th>
                             <th>Người đăng</th>
+                            <th>Loai liên hệ</th>
                             <th>Hình ảnh</th>
                             <th>Tiêu đề</th>
                             <th>Giá </th>
@@ -85,6 +86,7 @@
                             <th>Loại nhà đất</th>
                             <th>Duyệt</th>
                             <th>Trạng thái</th>
+                            <th>Hoa Hồng</th>
                             <th>Ngày đăng</th>
                             <th>Thao tác</th>
                         </tr>
@@ -100,15 +102,29 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $baidang->User->name }}</td>
                                     <td>
+                                        {{ $baidang->lienhe->loailienhe == 'moigioi' ? 'Môi giới' : ($baidang->lienhe->loailienhe == 'daidien' ? 'Đại diện chủ nhà' : 'Chủ nhà') }}
+                                    </td>
+                                    <td>
                                         <img src="{{ $baidang->thumb}}" alt="{{ $baidang->title }}"
                                         width="90px" height="90px">
                                     </td>
-                                    <td>{{ $baidang->title }}</td>
-                                    <td>{{ number_format($baidang->price , 0, ',', '.') }} đ</td>
+                                    <td class="title-baidang">
+                                        <a href="{{ route('baidangDetail', $baidang->slug) }}">
+                                            {{ $baidang->title }}
+                                        </a>
+                                    </td>                                    <td>{{ number_format($baidang->price , 0, ',', '.') }} đ</td>
                                     <td>{{ $baidang->dientich }} M2</td>
                                     <td>
-                                        <span>{{ $baidang->mohinh == 'thue' ? 'Cho thuê' : 'Bán' }}</span>
-                                    </td>
+                                        @php
+                                            $moHinhMap = [
+                                                'thue' => 'Cho thuê',
+                                                'ban' => 'Bán',
+                                                'chuyennhuong' => 'Chuyển nhượng',
+                                                'oghep' => 'Ở ghép'
+                                            ];
+                                        @endphp
+                                        
+                                        <span>{{ $moHinhMap[$baidang->mohinh] ?? 'Không xác định' }}</span>                                    </td>
                                     <td>{{ $baidang->nhadat->title ?? "" }}</td>
                                     <td>
                                         <span class="badge bg-danger">Đã hủy</span>
@@ -116,6 +132,8 @@
                                     <td>
                                         <span>{{ ['cosan' => 'Có sẵn', 'dathue' => 'Đã thuê', 'hethan' => 'Hết hạn'][$baidang->status] ?? 'Không xác định' }}</span>
                                     </td>
+                                    <td>{{ optional($baidang->baidangchitiet)->hoahong ?? '' }} %</td>
+
                                     <td>{{ $baidang->created_at}}</td>
                                     <td class="text-nowrap">
 
